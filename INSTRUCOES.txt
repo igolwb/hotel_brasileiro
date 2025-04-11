@@ -1,0 +1,3 @@
+para instalar as dependencias escreva "npm install" no cmd enquanto no diretorio do projeto
+
+ver uns projetos p ver como diferentes paginas interajem ou fazer com em componentes no projeto da aula
