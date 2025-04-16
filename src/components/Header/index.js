@@ -1,8 +1,10 @@
 import React from 'react';
 import logo from '../../assets/logo.svg'
 import './Header.css';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <header className="header">
       <div className="header-container">
@@ -20,7 +22,7 @@ const Header = () => {
     </nav>
         {/* Login Button */}
         <div>
-          <button className="login-button">Faça seu login</button>
+          <button className="login-button" onClick={() => navigate('/login')}>Faça seu login</button>
         </div>
       </div>
     </header>

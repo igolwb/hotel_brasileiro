@@ -1,10 +1,10 @@
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 *{
-    font-family: Inter;
+  font-family: Inter, sans-serif;
 }
-
 /* Hero Section */
 .hero-section {
     position: relative;
@@ -44,7 +44,7 @@
   }
   
   .hero-content p {
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     margin-bottom: 2rem;
   }
 
@@ -210,7 +210,7 @@
   }
   
   .experiences-content > p {
-    font-size: 1.2rem;
+    font-size: 1.7rem;
     margin-bottom: 3rem;
     color: #333;
   }

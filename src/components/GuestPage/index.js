@@ -7,10 +7,12 @@ import quarto3 from '../../assets/quarto3.svg';
 import quarto4 from '../../assets/quarto4.svg';
 import divisao from '../../assets/Divisão.svg';
 // Importe as novas imagens para as experiências
-import alvoradaImg from '../../assets/hora1.svg';
-import verticeImg from '../../assets/hora2.svg';
-import redemoinhoImg from '../../assets/hora3.svg';
-import waveDivider from '../../assets/linha4.svg';
+import hora1 from '../../assets/hora1.svg';
+import hora2 from '../../assets/hora2.svg';
+import hora3 from '../../assets/hora3.svg';
+import hora4 from '../../assets/hora4.svg';
+import hora5 from '../../assets/hora5.svg';
+import linha4 from '../../assets/linha4.svg';
 
 const rooms = [
   {
@@ -60,63 +62,77 @@ const rooms = [
 ];
 
 const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: { slidesToShow: 2 }
-      },
-      {
-        breakpoint: 600,
-        settings: { slidesToShow: 1 }
-      }
-    ]
-  };
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: { slidesToShow: 2 }
+    },
+    {
+      breakpoint: 600,
+      settings: { slidesToShow: 1 }
+    }
+  ]
+};
 
 // Array de experiências
 const experiences = [
+  {
+    image: hora1,
+    title: 'Alvorada Secreta',
+    time: '04h30 – 06h00',
+    description: 'Um pacto com a madrugada. Seguiremos, em silêncio, até o forno de barro onde o pão nasce sob as últimas estrelas.'
+  },
+  {
+    image: hora2,
+    title: 'Anoitecer em Vértice',
+    time: '16h00 – 18h00',
+    description: 'Uma jornada baseada em uma pergunta que você nos fizer ao chegar. Exemplo: “O que há no pé das pedras?” A resposta virá em forma de trilha, jantar e um objeto misterioso.'
+  },
+  {
+    image: hora3,
+    title: 'Meio-Dia de Redemoinho',
+    time: '11h30 – 12h30',
+    description: 'Deite-se na rede suspensa sobre o rio e deixe que o vento escute o indivíduo. Opções: “Grande Serão-Vertedouro” sussurrado, passeio de Manoel de Barro, código Morse, ou o canto das cigarras em loop infinito.'
+  },
+
+  //alguem faz algum texto e horario p hora4 e 5 pfv --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  {
+    image: hora4,
+    title: 'Meio-Dia de Redemoinho',
+    time: '11h30 – 12h30',
+    description: 'Deite-se na rede suspensa sobre o rio e deixe que o vento escute o indivíduo. Opções: “Grande Serão-Vertedouro” sussurrado, passeio de Manoel de Barro, código Morse, ou o canto das cigarras em loop infinito.'
+  },
+  {
+    image: hora5,
+    title: 'Meio-Dia de Redemoinho',
+    time: '11h30 – 12h30',
+    description: 'Deite-se na rede suspensa sobre o rio e deixe que o vento escute o indivíduo. Opções: “Grande Serão-Vertedouro” sussurrado, passeio de Manoel de Barro, código Morse, ou o canto das cigarras em loop infinito.'
+  }
+];
+
+// Carousel settings for experiences (similar to rooms)
+const experiencesSettings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  responsive: [
     {
-      image: alvoradaImg,
-      title: 'Alvorada Secreta',
-      time: '04h30 – 06h00',
-      description: 'Um pacto com a madrugada. Seguiremos, em silêncio, até o forno de barro onde o pão nasce sob as últimas estrelas.'
+      breakpoint: 1024,
+      settings: { slidesToShow: 2 }
     },
     {
-      image: verticeImg,
-      title: 'Anoitecer em Vértice',
-      time: '16h00 – 18h00',
-      description: 'Uma jornada baseada em uma pergunta que você nos fizer ao chegar. Exemplo: “O que há no pé das pedras?” A resposta virá em forma de trilha, jantar e um objeto misterioso.'
-    },
-    {
-      image: redemoinhoImg,
-      title: 'Meio-Dia de Redemoinho',
-      time: '11h30 – 12h30',
-      description: 'Deite-se na rede suspensa sobre o rio e deixe que o vento escute o indivíduo. Opções: “Grande Serão-Vertedouro” sussurrado, passeio de Manoel de Barro, código Morse, ou o canto das cigarras em loop infinito.'
+      breakpoint: 600,
+      settings: { slidesToShow: 1 }
     }
-  ];
-  
-  // Carousel settings for experiences (similar to rooms)
-  const experiencesSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: { slidesToShow: 2 }
-      },
-      {
-        breakpoint: 600,
-        settings: { slidesToShow: 1 }
-      }
-    ]
-  };
+  ]
+};
 
 
 const GuestPage = () => (
@@ -132,7 +148,7 @@ const GuestPage = () => (
     </section>
 
     <img src={divisao} alt="Divisao" className="divisao" />
-    
+
     {/* Rooms Section */}
     <section className="rooms-section">
       <div className="rooms-stripes"></div>
@@ -158,25 +174,25 @@ const GuestPage = () => (
     </section>
 
     {/* Experiences Section */}
-     {/* Experiences Section as Carousel */}
-     <section className="experiences-section">
+    {/* Experiences Section as Carousel */}
+    <section className="experiences-section">
       <div className="experiences-content">
         <h2>Programamos encontros com o inesperado</h2>
         <p>Aqui, até o ócio tem roteiro.</p>
         <Slider {...experiencesSettings}>
-    {experiences.map((exp, idx) => (
-      <div className="experience-card" key={idx}>
-        <img src={exp.image} alt={exp.title} className="experience-image" />
-        <div className="experience-overlay">
-        <div className="experience-time">Horário<br />{exp.time}</div>
-        <h3>{exp.title}</h3>
-        <p>{exp.description}</p>
-      </div>
-      </div>
-        ))}
+          {experiences.map((exp, idx) => (
+            <div className="experience-card" key={idx}>
+              <img src={exp.image} alt={exp.title} className="experience-image" />
+              <div className="experience-overlay">
+                <div className="experience-time">Horário<br />{exp.time}</div>
+                <h3>{exp.title}</h3>
+                <p>{exp.description}</p>
+              </div>
+            </div>
+          ))}
         </Slider>
       </div>
-      <img src={waveDivider} alt="Divisor" className="wave-divider" />
+      <img src={linha4} alt="Divisor" className="wave-divider" />
     </section>
   </div>
 );
