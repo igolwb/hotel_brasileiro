@@ -1,0 +1,3 @@
+para instalar as dependencias escreva "npm install" no cmd enquanto no diretorio do projeto
+
+POR FAVOR CHECAR SE NINGUEM FEZ ALGUM COMMIT ANTES DE VOCE TERMINAR O SEU CODIGO
