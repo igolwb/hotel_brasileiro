@@ -108,11 +108,11 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 1rem;
+    font-size: 1.3rem;
     color: #000;
     cursor: pointer;
   }
   
   .home-icon {
-    width: 17%;
+    width: 13%;
   }

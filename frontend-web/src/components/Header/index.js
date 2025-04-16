@@ -5,6 +5,14 @@ import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
+
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <header className="header">
       <div className="header-container">
@@ -18,12 +26,11 @@ const Header = () => {
 
         {/* Navigation */}
         <nav className="nav-links">
-
-    </nav>
+          <button className="hint" onClick={() => scrollToSection('quartos')}>Ir para Quartos</button>
+          <button className="hint" onClick={() => scrollToSection('experiencias')}>Ir para Experiências</button>
         {/* Login Button */}
-        <div>
           <button className="login-button" onClick={() => navigate('/login')}>Faça seu login</button>
-        </div>
+          </nav>
       </div>
     </header>
   );

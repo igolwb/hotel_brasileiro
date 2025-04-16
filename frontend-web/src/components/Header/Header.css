@@ -45,15 +45,17 @@
     display: flex;
     gap: 24px;
   }
-  
-  .nav-links a {
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-  }
-  
-  .nav-links a:hover {
-    text-decoration: underline;
+
+  .hint {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 8px;
+    transition: text-decoration 0.2s;
   }
   
   .login-button {

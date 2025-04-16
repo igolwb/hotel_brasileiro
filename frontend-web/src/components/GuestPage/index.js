@@ -150,7 +150,7 @@ const GuestPage = () => (
     <img src={divisao} alt="Divisao" className="divisao" />
 
     {/* Rooms Section */}
-    <section className="rooms-section">
+    <section id="quartos" className="rooms-section">
       <div className="rooms-stripes"></div>
       <div className="rooms-content">
         <h2>Quartos</h2>
@@ -175,7 +175,7 @@ const GuestPage = () => (
 
     {/* Experiences Section */}
     {/* Experiences Section as Carousel */}
-    <section className="experiences-section">
+    <section id="experiencias" className="experiences-section">
       <div className="experiences-content">
         <h2>Programamos encontros com o inesperado</h2>
         <p>Aqui, até o ócio tem roteiro.</p>
