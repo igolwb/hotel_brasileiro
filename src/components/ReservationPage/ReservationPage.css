@@ -109,14 +109,6 @@
     box-sizing: border-box;
   }
   
-  /* --- Step 2 Styles - Room Card --- */
-  /* Removing old .room-card-selected styles */
-  /*
-  .room-card-selected { ... }
-  .room-card-selected img { ... }
-  */
-  
-  /* Added styles based on homePage.js CSS */
   .room-card {
     background: #fff;
     border-radius: 18px; /* From homepage */
@@ -126,14 +118,12 @@
     flex-direction: column; /* Vertical layout */
     align-items: stretch; /* Stretch items */
     height: auto; /* Allow height to adjust */
-    flex-grow: 1; /* Allow card to grow if step content has space */
-    /* height: 500px; */ /* REMOVED fixed height - let content define it or adjust as needed */
-    /* Consider adding max-height if needed */
+    flex-grow: 1;
   }
   
   .room-image {
     width: 100%;
-    height: 180px; /* From homepage */
+    height: 180px;
     object-fit: cover; /* From homepage */
   }
   
@@ -171,10 +161,7 @@
   .room-info ul li {
     margin-bottom: 6px; /* Increased spacing */
   }
-  /* --- End of Room Card Styles --- */
-  
-  
-  /* Step 3 Styles */
+
   .checkout-summary h3 {
     font-weight: 700;
     margin-bottom: 10px;

@@ -151,6 +151,8 @@
   }
   
   .reserve-btn {
+    text-decoration: none;
+    text-align: center;
     background: #17607d;
     color: #fff;
     border: none;
