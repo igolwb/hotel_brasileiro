@@ -7,6 +7,7 @@ function AppContent() {
   const location = useLocation();
   const hideHeader = location.pathname === '/login' || location.pathname === '/cadastro';
   const hideFooter = location.pathname === '/login' || location.pathname === '/cadastro';
+  
 
   return (
     <>

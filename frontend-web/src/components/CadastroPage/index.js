@@ -1,3 +1,4 @@
+
 import React from "react";
 import "./Cadastro.css";
 import homeimg from "../../assets/Home.svg";

@@ -116,7 +116,8 @@
     display: flex !important;
     flex-direction: column;
     align-items: stretch;
-    height: 650px;
+    min-height: 650px;
+    max-height: 650px;
   }
   
   .room-image {
@@ -151,6 +152,8 @@
   }
   
   .reserve-btn {
+    text-decoration: none;
+    text-align: center;
     background: #17607d;
     color: #fff;
     border: none;
