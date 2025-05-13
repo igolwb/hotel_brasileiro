@@ -1,11 +1,10 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 // Import your pages:
-import GuestPage from '../components/GuestPage'; 
-import LoginPage from '../components/LoginPage';
-import CadastroPage from '../components/CadastroPage';
-import ReservationPage from '../components/ReservationPage';
+import GuestPage from '../components/GuestPage/homePage.js'; 
+import LoginPage from '../components/LoginPage/loginPage.js';
+import CadastroPage from '../components/CadastroPage/cadastro.js';
+import ReservationPage from '../components/ReservationPage/reservationPage.js';
 
 function AppRoutes() {
   return (

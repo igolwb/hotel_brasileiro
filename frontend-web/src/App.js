@@ -1,7 +1,7 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import AppRoutes from './Routes/index.js';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Header from './components/Header/header.js';
+import Footer from './components/Footer/footer.js';
 
 function AppContent() {
   const location = useLocation();
