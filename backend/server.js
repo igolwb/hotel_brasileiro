@@ -52,7 +52,7 @@ async function startdb() {
 
     // Criação da tabela 'reservas'
     await sql`
-        CREATE TABLE reservas (
+        CREATE TABLE IF NOT EXISTS reservas (
         id SERIAL PRIMARY KEY,
         quarto_id INTEGER REFERENCES quartos(id),
         cliente_id INTEGER REFERENCES clientes(id),
