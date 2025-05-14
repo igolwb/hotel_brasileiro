@@ -31,6 +31,7 @@ async function startdb() {
     await sql`
       CREATE TABLE IF NOT EXISTS clientes (
         id SERIAL PRIMARY KEY,
+        nome VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL UNIQUE,
         telefone VARCHAR(255) NOT NULL,
         senha VARCHAR(255) NOT NULL
@@ -51,16 +52,14 @@ async function startdb() {
 
     // Criação da tabela 'reservas'
     await sql`
-      CREATE TABLE IF NOT EXISTS reservas (
+        CREATE TABLE reservas (
         id SERIAL PRIMARY KEY,
-        quarto_id INTEGER NOT NULL,
-        cliente_id INTEGER NOT NULL,
+        quarto_id INTEGER REFERENCES quartos(id),
+        cliente_id INTEGER REFERENCES clientes(id),
         hospedes INTEGER NOT NULL,
         inicio DATE NOT NULL,
-        fim DATE NOT NULL,
-        FOREIGN KEY (quarto_id) REFERENCES quartos(id),
-        FOREIGN KEY (cliente_id) REFERENCES clientes(id)
-      );
+        fim DATE NOT NULL
+    );
     `;
 
     console.log('db conectada');
