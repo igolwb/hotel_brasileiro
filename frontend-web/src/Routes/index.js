@@ -13,7 +13,6 @@ function AppRoutes() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/cadastro" element={<CadastroPage />} />
       <Route path="/reserve/:roomId" element={<ReservaPage />} />
-
     </Routes>
   );
 }
