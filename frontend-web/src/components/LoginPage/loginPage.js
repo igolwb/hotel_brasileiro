@@ -18,13 +18,15 @@ function LoginPage() {
 </div>
         <h2>Sua próxima jornada começa aqui</h2>
         <p>
-          Só precisamos de duas coisas: seu email <br />
-          e sua vontade de relaxar.
+          Só precisamos de duas coisas: <br />
+         seu email e sua vontade de relaxar.
         </p>
       </div>
       <div className="right-panel">
         <form className="login-form">
           <h2>Faça seu login</h2>
+          <label>Nome</label>
+          <input type="nome" placeholder="Digite seu nome" />
           <label>Email</label>
           <input type="email" placeholder="Digite seu email" />
           <label>Senha</label>

@@ -34,18 +34,18 @@ body {
   }
   
   .left-panel h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin: 0 0 20px 0;
     font-weight: bold;
   }
   
   .left-panel h2 {
-    font-size: 2.3rem;
+    font-size: 2.0trem;
     margin-bottom: 10px;
   }
   
   .left-panel p {
-    font-size: 1.7rem;
+    font-size: 0.7rem;
     margin-bottom: 60vh;
   }
   
