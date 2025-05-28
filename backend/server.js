@@ -3,6 +3,9 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import YAML from 'yamljs';
+import swaggerUi from 'swagger-ui-express';
+import path from 'path';
 
 import quartosRoutes from './routes/quartosRoutes.js';
 import clientesRoutes from './routes/clientesRoutes.js';
@@ -20,6 +23,12 @@ app.use(express.json());                                    // middleware para a
 app.use(cors());                                            // middleware para habilitar CORS (Cross-Origin Resource Sharing), permitindo que o frontend acesse o backend em diferentes domínios.
 app.use(helmet());                                          // helmet é um middleware de segurança que ajuda a proteger o seu app definindo vários cabeçalhos HTTP relacionados à segurança.
 app.use(morgan('dev'));                                     // morgan é um middleware de logging que registra as requisições HTTP no console.
+
+// Carregue a especificação Swagger do arquivo (ajuste o caminho conforme necessário)
+const swaggerDocument = YAML.load(path.join(process.cwd(), 'docs', 'swagger.yaml'));
+
+// Rota para acessar a documentação Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/api/quartos', quartosRoutes);
 app.use('/api/clientes', clientesRoutes);
