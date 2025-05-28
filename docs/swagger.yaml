@@ -1,0 +1,338 @@
+openapi: 3.0.0
+info:
+  title: API de Hotel Brasileiro
+  version: v1
+  description: API para gerenciar quartos, clientes e reservas de um hotel.
+
+servers:
+  - url: http://localhost:3000
+    description: Servidor local de desenvolvimento
+
+paths:
+  /api/quartos:
+    get:
+      summary: Buscar todos os quartos
+      description: Retorna uma lista de todos os quartos cadastrados.
+      responses:
+        '200':
+          description: Lista de quartos obtida com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Quarto'
+        '500':
+          description: Erro interno no servidor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Erro interno no servidor"
+    post:
+      summary: Adicionar um novo quarto
+      description: Adiciona um novo quarto ao sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imagem_url:
+                  type: string
+                  example: "https://example.com/image.jpg"
+                nome:
+                  type: string
+                  example: "Quarto Luxo"
+                descricao:
+                  type: string
+                  example: "Quarto com vista para o mar"
+                preco:
+                  type: number
+                  format: float
+                  example: 250.00
+                quantidade:
+                  type: integer
+                  example: 5
+              required:
+                - nome
+                - preco
+                - quantidade
+      responses:
+        '201':
+          description: Quarto adicionado com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Quarto'
+        '400':
+          description: Requisição inválida - Preencha todos os campos obrigatórios.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Preencha todos os campos obrigatórios!"
+        '500':
+          description: Erro interno no servidor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Erro interno no servidor"
+
+  /api/quartos/{id}:
+    get:
+      summary: Buscar quarto por ID
+      description: Retorna os detalhes de um quarto específico com base no seu ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID do quarto a ser buscado.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Quarto encontrado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Quarto'
+        '404':
+          description: Quarto não encontrado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Quarto não encontrado"
+        '500':
+          description: Erro interno no servidor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Erro interno no servidor"
+
+  /api/clientes:
+    get:
+      summary: Buscar todos os clientes
+      description: Retorna uma lista de todos os clientes cadastrados.
+      responses:
+        '200':
+          description: Lista de clientes obtida com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Cliente'
+        '500':
+          description: Erro interno no servidor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Erro interno no servidor"
+
+  /api/reservas:
+    post:
+      summary: Criar uma nova reserva
+      description: Cria uma nova reserva para um cliente em um quarto específico.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quarto_id:
+                  type: integer
+                  example: 1
+                cliente_id:
+                  type: integer
+                  example: 2
+                hospedes:
+                  type: integer
+                  example: 3
+                inicio:
+                  type: string
+                  format: date
+                  example: "2025-06-01"
+                fim:
+                  type: string
+                  format: date
+                  example: "2025-06-05"
+              required:
+                - quarto_id
+                - cliente_id
+                - hospedes
+                - inicio
+                - fim
+      responses:
+        '201':
+          description: Reserva criada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Reserva'
+        '400':
+          description: Requisição inválida.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Dados inválidos ou quarto indisponível"
+        '500':
+          description: Erro interno no servidor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Erro interno no servidor"
+
+components:
+  schemas:
+    Quarto:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        imagem_url:
+          type: string
+          example: "https://example.com/image.jpg"
+        nome:
+          type: string
+          example: "Quarto Luxo"
+        descricao:
+          type: string
+          example: "Quarto com vista para o mar"
+        preco:
+          type: number
+          format: float
+          example: 250.00
+        quantidade:
+          type: integer
+          example: 5
+
+    Cliente:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: "João Silva"
+        email:
+          type: string
+          example: "joao.silva@example.com"
+        telefone:
+          type: string
+          example: "(11) 99999-9999"
+        senha:
+          type: string
+          example: "senha123"
+
+    Reserva:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        quarto_id:
+          type: integer
+          example: 1
+        cliente_id:
+          type: integer
+          example: 2
+        hospedes:
+          type: integer
+          example: 3
+        inicio:
+          type: string
+          format: date
+          example: "2025-06-01"
+        fim:
+          type: string
+          format: date
+          example: "2025-06-05"
