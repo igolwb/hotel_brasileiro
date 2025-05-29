@@ -1,6 +1,5 @@
 import { sql } from "../config/db.js";
 
-
 export const buscarReservas = async (req, res) => {
   try {
     const reservas = await sql`
@@ -8,32 +7,34 @@ export const buscarReservas = async (req, res) => {
         ORDER BY id DESC
         `;
 
-    console.log("reservas: ", reservas);
+    console.log("[GET /reservas] Reservas encontradas:", reservas);
     res.status(200).json({ success: true, data: reservas });
   } catch (error) {
-    console.error("Erro ao buscar reservas: ", error);
+    console.error("[GET /reservas] Erro na função buscarReservas:", error);
     res
       .status(500)
       .json({ success: false, message: "Erro interno no servidor" });
   }
 };
 
-
 export const criarReserva = async (req, res) => {
   const { quarto_id, cliente_id, hospedes, inicio, fim } = req.body;
 
   // Validação dos dados de entrada
   if (!quarto_id || !cliente_id || !hospedes || !inicio || !fim) {
+    console.warn("[POST /reservas] Campos obrigatórios não preenchidos:", req.body);
     return res.status(400).json({ error: "Todos os campos são obrigatórios" });
   }
 
   if (isNaN(quarto_id) || isNaN(cliente_id) || isNaN(hospedes)) {
+    console.warn("[POST /reservas] IDs ou número de hóspedes inválidos:", req.body);
     return res
       .status(400)
       .json({ error: "IDs e número de hóspedes devem ser números" });
   }
 
   if (new Date(inicio) >= new Date(fim)) {
+    console.warn("[POST /reservas] Datas inválidas: início >= fim", { inicio, fim });
     return res
       .status(400)
       .json({ error: "A data de início deve ser anterior à data de fim" });
@@ -55,12 +56,14 @@ export const criarReserva = async (req, res) => {
 
     // Verificar se o quarto existe
     if (disponibilidadeResult.length === 0) {
+      console.warn(`[POST /reservas] Quarto não encontrado: quarto_id=${quarto_id}`);
       return res.status(404).json({ error: "Quarto não encontrado" });
     }
 
     const { total_quartos, reservas_no_periodo } = disponibilidadeResult[0];
 
     if (reservas_no_periodo >= total_quartos) {
+      console.warn(`[POST /reservas] Não há quartos disponíveis para o período: quarto_id=${quarto_id}, inicio=${inicio}, fim=${fim}`);
       return res.status(400).json({
         error: "Não há quartos disponíveis para este período",
       });
@@ -75,31 +78,33 @@ export const criarReserva = async (req, res) => {
       RETURNING *;
     `;
 
+    console.log("[POST /reservas] Nova reserva criada:", reservaResult[0]);
     res.status(201).json(reservaResult[0]);
   } catch (error) {
-    console.error("Erro ao processar a reserva: ", error.message, error.stack);
+    console.error("[POST /reservas] Erro na função criarReserva:", error.message, error.stack);
     res.status(500).json({ error: "Erro ao processar a reserva" });
   }
 };
-
 
 export const buscarReservaId = async (req, res) => {
   const { id } = req.params;
 
   try {
     const reserva = await sql`
-        SELECT * FROM quartos WHERE id = ${id}
+        SELECT * FROM reservas WHERE id = ${id}
         `;
 
-    if (!reservado.length) {
+    if (!reserva.length) {
+      console.warn(`[GET /reservas/${id}] Reserva não encontrada.`);
       return res
         .status(404)
-        .json({ success: false, message: "Reserva não encontrado" });
+        .json({ success: false, message: "Reserva não encontrada" });
     }
 
+    console.log(`[GET /reservas/${id}] Reserva encontrada:`, reserva[0]);
     res.status(200).json({ success: true, data: reserva[0] });
   } catch (error) {
-    console.error("Erro ao buscar reserva: ", error);
+    console.error(`[GET /reservas/${id}] Erro na função buscarReservaId:`, error);
     res
       .status(500)
       .json({ success: false, message: "Erro interno no servidor" });
@@ -113,20 +118,22 @@ export const atualizarReserva = async (req, res) => {
   try {
     const reservaAtualizada = await sql`
         UPDATE reservas
-        SET reserva_id = ${quarto_id}, cliente_id = ${cliente_id}, hospedes = ${hospedes}, inicio = ${inicio}, fim = ${fim}
+        SET quarto_id = ${quarto_id}, cliente_id = ${cliente_id}, hospedes = ${hospedes}, inicio = ${inicio}, fim = ${fim}
         WHERE id = ${id}
         RETURNING *;
         `;
 
     if (!reservaAtualizada.length) {
+      console.warn(`[PUT /reservas/${id}] Reserva não encontrada para atualização.`);
       return res
         .status(404)
-        .json({ success: false, message: "Reserva não encontrado" });
+        .json({ success: false, message: "Reserva não encontrada" });
     }
 
-    res.status(200).json({ success: true, data: reservasAtualizada[0] });
+    console.log(`[PUT /reservas/${id}] Reserva atualizada:`, reservaAtualizada[0]);
+    res.status(200).json({ success: true, data: reservaAtualizada[0] });
   } catch (error) {
-    console.error("Erro ao atualizar reserva: ", error);
+    console.error(`[PUT /reservas/${id}] Erro na função atualizarReserva:`, error);
     res
       .status(500)
       .json({ success: false, message: "Erro interno no servidor" });
@@ -143,17 +150,19 @@ export const deletarReserva = async (req, res) => {
         `;
 
     if (!reservaDeletada.length) {
+      console.warn(`[DELETE /reservas/${id}] Reserva não encontrada para exclusão.`);
       return res
         .status(404)
-        .json({ success: false, message: "Reserva não encontrado" });
+        .json({ success: false, message: "Reserva não encontrada" });
     }
 
+    console.log(`[DELETE /reservas/${id}] Reserva deletada:`, reservaDeletada[0]);
     res.status(200).json({
       success: true,
       data: reservaDeletada[0],
     });
   } catch (error) {
-    console.error("Erro ao deletar reserva: ", error);
+    console.error(`[DELETE /reservas/${id}] Erro na função deletarReserva:`, error);
     res
       .status(500)
       .json({ success: false, message: "Erro interno no servidor" });

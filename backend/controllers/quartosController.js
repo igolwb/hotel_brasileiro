@@ -7,11 +7,11 @@ export const buscarQuartos = async (req, res) => {
         ORDER BY id DESC
         `;
 
-        console.log('quartos: ', quartos);
+        console.log('[GET /quartos] Quartos encontrados:', quartos);
         res.status(200).json({ success: true, data: quartos });
 
     } catch (error) {
-        console.error('Erro ao buscar quartos: ', error);
+        console.error('[GET /quartos] Erro na função buscarQuartos:', error);
         res.status(500).json({ success: false, message: 'Erro interno no servidor' });
     }
 };
@@ -20,6 +20,7 @@ export const criarQuarto = async (req, res) => {
     const { imagem_url, nome, descricao, preco, quantidade } = req.body;
 
     if (!nome || !preco || !quantidade) {
+        console.warn('[POST /quartos] Campos obrigatórios não preenchidos:', req.body);
         return res.status(400).json({ success: false, message: 'Preencha todos os campos obrigatórios!' });
     }
 
@@ -29,11 +30,11 @@ export const criarQuarto = async (req, res) => {
         VALUES (${imagem_url}, ${nome}, ${descricao}, ${preco}, ${quantidade})
         RETURNING *;
         `;
-        console.log('Novo quarto criado: ', novoQuarto);
+        console.log('[POST /quartos] Novo quarto criado:', novoQuarto);
         res.status(201).json({ success: true, data: novoQuarto[0] });
 
     } catch (error) {
-        console.error('Erro ao criar quarto: ', error);
+        console.error('[POST /quartos] Erro na função criarQuarto:', error);
         res.status(500).json({ success: false, message: 'Erro interno no servidor' });
     }
 };
@@ -47,12 +48,14 @@ export const buscarQuartoId = async (req, res) => {
         `;
 
         if (!quarto.length) {
+            console.warn(`[GET /quartos/${id}] Quarto não encontrado.`);
             return res.status(404).json({ success: false, message: 'Quarto não encontrado' });
         }
 
+        console.log(`[GET /quartos/${id}] Quarto encontrado:`, quarto[0]);
         res.status(200).json({ success: true, data: quarto[0] });
     } catch (error) {
-        console.error('Erro ao buscar quarto: ', error);
+        console.error(`[GET /quartos/${id}] Erro na função buscarQuartoId:`, error);
         res.status(500).json({ success: false, message: 'Erro interno no servidor' });
     }
 };
@@ -70,12 +73,14 @@ export const atualizarQuarto = async (req, res) => {
         `;
 
         if (!quartoAtualizado.length) {
+            console.warn(`[PUT /quartos/${id}] Quarto não encontrado para atualização.`);
             return res.status(404).json({ success: false, message: 'Quarto não encontrado' });
         }
 
+        console.log(`[PUT /quartos/${id}] Quarto atualizado:`, quartoAtualizado[0]);
         res.status(200).json({ success: true, data: quartoAtualizado[0] });
     } catch (error) {
-        console.error('Erro ao atualizar quarto: ', error);
+        console.error(`[PUT /quartos/${id}] Erro na função atualizarQuarto:`, error);
         res.status(500).json({ success: false, message: 'Erro interno no servidor' });
     }
 };
@@ -90,15 +95,17 @@ export const deletarQuarto = async (req, res) => {
         `;
 
         if (!quartoDeletado.length) {
+            console.warn(`[DELETE /quartos/${id}] Quarto não encontrado para exclusão.`);
             return res.status(404).json({ success: false, message: 'Quarto não encontrado' });
         }
 
+        console.log(`[DELETE /quartos/${id}] Quarto deletado:`, quartoDeletado[0]);
         res.status(200).json({
             success: true,
             data: quartoDeletado[0]
         });
     } catch (error) {
-        console.error('Erro ao deletar quarto: ', error);
+        console.error(`[DELETE /quartos/${id}] Erro na função deletarQuarto:`, error);
         res.status(500).json({ success: false, message: 'Erro interno no servidor' });
     }
 };
