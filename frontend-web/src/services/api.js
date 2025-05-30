@@ -10,6 +10,7 @@ const useApiStore = create((set) => ({
   loading: false,
   error: null,
 
+  //GET, POST, PUT, DELETE Clientes
   fetchClientes: async () => {
     set({ loading: true, error: null });
     try {
@@ -20,21 +21,12 @@ const useApiStore = create((set) => ({
     }
   },
 
-  fetchQuartos: async () => {
+  getClienteById: async (id) => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.get(`${URL}/api/quartos`);
-      set({ quartos: response.data.data, loading: false });
-    } catch (error) {
-      set({ error: error.message, loading: false });
-    }
-  },
-
-  fetchReservas: async () => {
-    set({ loading: true, error: null });
-    try {
-      const response = await axios.get(`${URL}/api/reservas`);
-      set({ reservas: response.data.data, loading: false });
+      const response = await axios.get(`${URL}/api/clientes/${id}`);
+      set({ loading: false });
+      return response.data;
     } catch (error) {
       set({ error: error.message, loading: false });
     }
@@ -45,26 +37,6 @@ const useApiStore = create((set) => ({
     try {
       const response = await axios.post(`${URL}/api/clientes`, cliente);
       set((state) => ({ clientes: [...state.clientes, response.data], loading: false }));
-    } catch (error) {
-      set({ error: error.message, loading: false });
-    }
-  },
-
-  createQuarto: async (quarto) => {
-    set({ loading: true, error: null });
-    try {
-      const response = await axios.post(`${URL}/api/quartos`, quarto);
-      set((state) => ({ quartos: [...state.quartos, response.data], loading: false }));
-    } catch (error) {
-      set({ error: error.message, loading: false });
-    }
-  },
-
-  createReserva: async (reserva) => {
-    set({ loading: true, error: null });
-    try {
-      const response = await axios.post(`${URL}/api/reservas`, reserva);
-      set((state) => ({ reservas: [...state.reservas, response.data], loading: false }));
     } catch (error) {
       set({ error: error.message, loading: false });
     }
@@ -97,13 +69,39 @@ const useApiStore = create((set) => ({
       set({ error: error.message, loading: false });
     }
   },
+  //GET, POST, PUT, DELETE Clientes
 
-  getClienteById: async (id) => {
+
+
+
+
+  //GET, POST, PUT, DELETE Quartos
+  fetchQuartos: async () => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.get(`${URL}/api/clientes/${id}`);
+      const response = await axios.get(`${URL}/api/quartos`);
+      set({ quartos: response.data.data, loading: false });
+    } catch (error) {
+      set({ error: error.message, loading: false });
+    }
+  },
+
+  getQuartoById: async (id) => {
+    set({ loading: true, error: null });
+    try {
+      const response = await axios.get(`${URL}/api/quartos/${id}`);
       set({ loading: false });
       return response.data;
+    } catch (error) {
+      set({ error: error.message, loading: false });
+    }
+  },
+
+  createQuarto: async (quarto) => {
+    set({ loading: true, error: null });
+    try {
+      const response = await axios.post(`${URL}/api/quartos`, quarto);
+      set((state) => ({ quartos: [...state.quartos, response.data], loading: false }));
     } catch (error) {
       set({ error: error.message, loading: false });
     }
@@ -136,13 +134,40 @@ const useApiStore = create((set) => ({
       set({ error: error.message, loading: false });
     }
   },
+  //GET, POST, PUT, DELETE Quartos
 
-  getQuartoById: async (id) => {
+
+
+
+
+  
+  //GET, POST, PUT, DELETE Reservas
+  fetchReservas: async () => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.get(`${URL}/api/quartos/${id}`);
+      const response = await axios.get(`${URL}/api/reservas`);
+      set({ reservas: response.data.data, loading: false });
+    } catch (error) {
+      set({ error: error.message, loading: false });
+    }
+  },
+
+  getReservaById: async (id) => {
+    set({ loading: true, error: null });
+    try {
+      const response = await axios.get(`${URL}/api/reservas/${id}`);
       set({ loading: false });
       return response.data;
+    } catch (error) {
+      set({ error: error.message, loading: false });
+    }
+  },
+
+  createReserva: async (reserva) => {
+    set({ loading: true, error: null });
+    try {
+      const response = await axios.post(`${URL}/api/reservas`, reserva);
+      set((state) => ({ reservas: [...state.reservas, response.data], loading: false }));
     } catch (error) {
       set({ error: error.message, loading: false });
     }
@@ -175,17 +200,7 @@ const useApiStore = create((set) => ({
       set({ error: error.message, loading: false });
     }
   },
-
-  getReservaById: async (id) => {
-    set({ loading: true, error: null });
-    try {
-      const response = await axios.get(`${URL}/api/reservas/${id}`);
-      set({ loading: false });
-      return response.data;
-    } catch (error) {
-      set({ error: error.message, loading: false });
-    }
-  },
+ //GET, POST, PUT, DELETE Reservas
 }));
 
 export default useApiStore;
