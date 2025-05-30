@@ -5,8 +5,14 @@ import Footer from './components/Footer/footer.js';
 
 function AppContent() {
   const location = useLocation();
-  const hideHeader = location.pathname === '/login' || location.pathname === '/cadastro' || location.pathname === '/admin/clientes';
-  const hideFooter = location.pathname === '/login' || location.pathname === '/cadastro' || location.pathname === '/admin/clientes' ;
+  const hideHeader = location.pathname === '/login' || location.pathname === '/cadastro' 
+  || location.pathname === '/admin/clientes' || location.pathname === '/admin/quartos' 
+  || location.pathname.includes('/admin/quartos/');
+
+
+  const hideFooter = location.pathname === '/login' || location.pathname === '/cadastro' 
+  || location.pathname === '/admin/clientes' || location.pathname === '/admin/quartos' 
+  || location.pathname.includes('/admin/quartos/');
   
 
   return (
