@@ -1,61 +1,83 @@
+import React from 'react'; 
 import logo from '../../assets/logo.svg';
 import './Header.css';
-// Import useLocation along with useNavigate
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 
-const Header = () => {
+function Header() {
+
   const navigate = useNavigate();
-  // Get the current location object
   const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleScrollOrNavigate = (id) => {
-    // Check if we are already on the homepage (assuming homepage path is '/')
+  // Função para rolagem/navegação híbrida
+  function handleScrollOrNavigate(id) {
+    setIsMenuOpen(false);
     if (location.pathname === '/') {
-      // If on homepage, just scroll
       scrollToSection(id);
     } else {
-      // If not on homepage, navigate first, then scroll after a short delay
       navigate('/');
-      // Use setTimeout to allow navigation and rendering to occur before scrolling
-      setTimeout(() => {
+      setTimeout(function() {
         scrollToSection(id);
-      }, 100); // Adjust delay (in ms) if needed, 100ms is often enough
+      }, 100);
     }
-  };
+  }
 
-  // Keep the original scroll logic separate for clarity
-  const scrollToSection = (id) => {
+  // Função de rolagem suave
+  function scrollToSection(id) {
     const section = document.getElementById(id);
-    console.log(`Attempting to scroll to section: ${id}`, section); // Debug log
     if (section) {
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' }); // 'block: start' can sometimes help ensure it scrolls to the top of the section
-    } else {
-      console.warn(`Section with ID "${id}" not found.`); // Warning if element doesn't exist
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  };
+  }
+
+  // Alternar visibilidade do menu mobile
+  function toggleMenu() {
+    setIsMenuOpen(!isMenuOpen);
+  }
 
   return (
-    <header className="header">
-      <div className="header-container">
-        <div className="logo">
-          <img className='logo-img' src={logo} alt="Logo" />
-          <div className="logo-text">
-            <div>Hotel</div>
-            <div>Brasileiro</div>
-          </div>
-        </div>
+    React.createElement('header', { className: 'header' },
+      React.createElement('div', { className: 'header-container' },
+        // Logo
+        React.createElement('div', { className: 'logo' },
+          React.createElement('img', { className: 'logo-img', src: logo, alt: 'Logo' }),
+          React.createElement('div', { className: 'logo-text' },
+            React.createElement('div', null, 'Hotel'),
+            React.createElement('div', null, 'Brasileiro')
+          )
+        ),
 
-        {/* Navigation */}
-        <nav className="nav-links">
-          {/* Use the new handler function */}
-          <button className="hint1" onClick={() => handleScrollOrNavigate('quartos')}>Ir para Quartos</button>
-          <button className="hint1" onClick={() => handleScrollOrNavigate('experiencias')}>Ir para Experiências</button>
-          {/* Login Button */}
-          <button className="login-button" onClick={() => navigate('/login')}>Faça seu login</button>
-        </nav>
-      </div>
-    </header>
+        // Menu Hamburguer
+        React.createElement('div', { className: 'menu-toggle', onClick: toggleMenu },
+          React.createElement('span', null),
+          React.createElement('span', null),
+          React.createElement('span', null)
+        ),
+
+        // Links de navegação
+        React.createElement('nav', { className: `nav-links ${isMenuOpen ? 'active' : ''}` },
+          React.createElement('button', { 
+            className: 'hint1', 
+            onClick: () => handleScrollOrNavigate('quartos') 
+          }, 'Ir para Quartos'),
+          
+          React.createElement('button', { 
+            className: 'hint1', 
+            onClick: () => handleScrollOrNavigate('experiencias') 
+          }, 'Ir para Experiências'),
+          
+          React.createElement('button', { 
+            className: 'login-button', 
+            onClick: () => {
+              setIsMenuOpen(false);
+              navigate('/login');
+            }
+          }, 'Faça seu login')
+        )
+      )
+    )
   );
-};
+}
 
 export default Header;
