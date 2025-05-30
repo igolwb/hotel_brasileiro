@@ -5,8 +5,8 @@ import Footer from './components/Footer/footer.js';
 
 function AppContent() {
   const location = useLocation();
-  const hideHeader = location.pathname === '/login' || location.pathname === '/cadastro';
-  const hideFooter = location.pathname === '/login' || location.pathname === '/cadastro';
+  const hideHeader = location.pathname === '/login' || location.pathname === '/cadastro' || location.pathname === '/admin/clientes';
+  const hideFooter = location.pathname === '/login' || location.pathname === '/cadastro' || location.pathname === '/admin/clientes' ;
   
 
   return (
