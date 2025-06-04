@@ -19,7 +19,7 @@ const AdminHeader = () => {
           <span className="nav-link" onClick={() => navigate('/')}>Início</span>
           <span className="nav-link" onClick={() => navigate('/admin/clientes')}>Clientes</span>
           <span className="nav-link" onClick={() => navigate('/admin/quartos')}>Quartos</span>
-          <span className="nav-link" onClick={() => navigate('/admin/reservas')}>Reserva</span>
+          <span className="nav-link" onClick={() => navigate('/admin/reservas')}>Reservas</span>
         </nav>
       </div>
     </header>
