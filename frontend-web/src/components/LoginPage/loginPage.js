@@ -2,7 +2,7 @@ import "./Login.css";
 import homeimg from "../../assets/Home.svg";
 import logo from '../../assets/logo.svg';
 import { useNavigate, Link } from 'react-router-dom';
-import { useSignIn } from 'react-auth-kit';
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import axios from 'axios';
 import { useState } from 'react';
 
@@ -14,19 +14,24 @@ function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await axios.post('http://localhost:3000/api/login', { email, senha });
-
+  
       if (response.data.success) {
-        signIn({
-          token: response.data.token,
-          expiresIn: 3600,
-          tokenType: 'Bearer',
-          authState: { email },
+        const ok = signIn({
+          auth: {
+            token: response.data.token,
+            type: 'Bearer'
+          },
+          userState: { email }
         });
-
-        navigate('/'); // Redireciona para a página inicial após o login
+  
+        if (ok) {
+          navigate('/'); // Redireciona para a página inicial após o login
+        } else {
+          alert('Erro ao salvar autenticação. Tente novamente.');
+        }
       } else {
         alert('Credenciais inválidas.');
       }
