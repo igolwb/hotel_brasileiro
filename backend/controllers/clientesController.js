@@ -1,4 +1,41 @@
+import bcrypt from 'bcrypt';
 import { sql } from "../config/db.js";
+
+export const criarCliente = async (req, res) => {
+  const { nome, email, telefone, senha } = req.body;
+
+  if (!nome || !email || !telefone || !senha) {
+    console.warn('[POST /clientes] Campos obrigatórios não preenchidos:', req.body);
+    return res.status(400).json({ success: false, message: 'Preencha todos os campos!' });
+  }
+
+  try {
+    // Hash da senha antes de salvar
+    const senhaHash = await bcrypt.hash(senha, 10);
+
+    const novoCliente = await sql`
+      INSERT INTO clientes (nome, email, telefone, senha)
+      VALUES (${nome}, ${email}, ${telefone}, ${senhaHash})
+      RETURNING id, nome, email, telefone;
+    `;
+
+    console.log('[POST /clientes] Novo cliente criado:', novoCliente[0]);
+    res.status(201).json({ success: true, data: novoCliente[0] });
+
+  } catch (error) {
+    console.error('[POST /clientes] Erro na função criarCliente:', error);
+
+    // Código de erro para violação de unicidade no PostgreSQL
+    if (error.code === '23505') {
+      return res.status(409).json({
+        success: false,
+        message: 'Email já cadastrado.'
+      });
+    }
+
+    res.status(500).json({ success: false, message: 'Erro interno no servidor' });
+  }
+};
 
 export const buscarClientes = async(req, res) => {
     try {
@@ -12,29 +49,6 @@ export const buscarClientes = async(req, res) => {
 
     } catch (error) {
         console.error('[GET /clientes] Erro na função buscarClientes:', error);
-        res.status(500).json({ success: false, message: 'Erro interno no servidor' });
-    }
-};
-
-export const criarCliente = async(req, res) => {
-    const {nome, email, telefone, senha} = req.body
-
-    if(!nome || !email || !telefone || !senha){
-        console.warn('[POST /clientes] Campos obrigatórios não preenchidos:', req.body);
-        return res.status(400).json({success: false, message: 'Preencha todos os campos!'})
-    }
-
-    try {
-        const novoCliente = await sql `
-        INSERT INTO clientes (nome, telefone, email, senha)
-        VALUES (${nome}, ${telefone}, ${email}, ${senha})
-        RETURNING *;
-        `
-        console.log('[POST /clientes] Novo cliente criado:', novoCliente);
-        res.status(201).json({ success: true, data: novoCliente[0] });
-
-    } catch (error) {
-        console.error('[POST /clientes] Erro na função criarCliente:', error);
         res.status(500).json({ success: false, message: 'Erro interno no servidor' });
     }
 };

@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 import YAML from 'yamljs';
 import swaggerUi from 'swagger-ui-express';
 import path from 'path';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 import quartosRoutes from './routes/quartosRoutes.js';
 import clientesRoutes from './routes/clientesRoutes.js';
@@ -13,30 +15,61 @@ import reservasRoutes from './routes/reservasRoutes.js';
 
 import { sql } from './config/db.js';
 
-dotenv.config();                                            // Carrega as variáveis de ambiente do arquivo .env para process.env
-                                                            // dotenv é um módulo que carrega variáveis de ambiente de um arquivo .env para process.env, permitindo o uso de variáveis de configuração em seu aplicativo.
-
+dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
+const JWT_SECRET = process.env.JWT_SECRET || 'sua_chave_secreta_super_segura';
 
-app.use(express.json());                                    // middleware para analisar o body das requisições JSON
-app.use(cors());                                            // middleware para habilitar CORS (Cross-Origin Resource Sharing), permitindo que o frontend acesse o backend em diferentes domínios.
-app.use(helmet());                                          // helmet é um middleware de segurança que ajuda a proteger o seu app definindo vários cabeçalhos HTTP relacionados à segurança.
-app.use(morgan('dev'));                                     // morgan é um middleware de logging que registra as requisições HTTP no console.
+app.use(express.json());
+app.use(cors());
+app.use(helmet());
+app.use(morgan('dev'));
 
-// Carregue a especificação Swagger do arquivo (ajuste o caminho conforme necessário)
 const swaggerDocument = YAML.load(path.join(process.cwd(), 'docs', 'swagger.yaml'));
-
-// Rota para acessar a documentação Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+// Nova rota de autenticação
+app.post('/api/login', async (req, res) => {
+  const { email, senha } = req.body;
+
+  if (!email || !senha) {
+    return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios.' });
+  }
+
+  try {
+    const [user] = await sql`
+      SELECT * FROM clientes WHERE email = ${email};
+    `;
+
+    if (!user) {
+      return res.status(401).json({ success: false, message: 'Credenciais inválidas.' });
+    }
+
+    const senhaValida = await bcrypt.compare(senha, user.senha);
+    if (!senhaValida) {
+      return res.status(401).json({ success: false, message: 'Credenciais inválidas.' });
+    }
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email },
+      JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    res.status(200).json({ success: true, token });
+  } catch (error) {
+    console.error('Erro ao realizar login:', error);
+    res.status(500).json({ success: false, message: 'Erro interno no servidor.' });
+  }
+});
+
+// Rotas existentes
 app.use('/api/quartos', quartosRoutes);
 app.use('/api/clientes', clientesRoutes);
 app.use('/api/reservas', reservasRoutes);
 
 async function startdb() {
   try {
-    // Criação da tabela 'clientes'
     await sql`
       CREATE TABLE IF NOT EXISTS clientes (
         id SERIAL PRIMARY KEY,
@@ -47,7 +80,6 @@ async function startdb() {
       );
     `;
 
-    // Criação da tabela 'quartos'
     await sql`
       CREATE TABLE IF NOT EXISTS quartos (
         id SERIAL PRIMARY KEY,
@@ -59,26 +91,25 @@ async function startdb() {
       );
     `;
 
-    // Criação da tabela 'reservas'
     await sql`
-        CREATE TABLE IF NOT EXISTS reservas (
+      CREATE TABLE IF NOT EXISTS reservas (
         id SERIAL PRIMARY KEY,
         quarto_id INTEGER REFERENCES quartos(id),
         cliente_id INTEGER REFERENCES clientes(id),
         hospedes INTEGER NOT NULL,
         inicio DATE NOT NULL,
         fim DATE NOT NULL
-    );
+      );
     `;
 
     console.log('db conectada');
-  }catch (error) {
-    console.error('Erro ao conectar ao banco de dados:', error); // Loga o erro caso a conexão falhe
+  } catch (error) {
+    console.error('Erro ao conectar ao banco de dados:', error);
   }
 }
 
 startdb().then(() => {
   app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`); // Loga a porta em que o servidor está rodando
+    console.log(`Servidor rodando na porta ${PORT}`);
   });
-})
+});
