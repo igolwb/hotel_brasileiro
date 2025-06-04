@@ -1,7 +1,16 @@
+import AuthProvider from 'react-auth-kit'; // default import
+import createStore from 'react-auth-kit/createStore';
 import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import AppRoutes from './Routes/index.js';
 import Header from './components/Header/header.js';
 import Footer from './components/Footer/footer.js';
+
+const store = createStore({
+  authName: '_auth',
+  authType: 'cookie',
+  cookieDomain: window.location.hostname,
+  cookieSecure: window.location.protocol === 'https:',
+});
 
 function AppContent() {
   const location = useLocation();
@@ -28,9 +37,11 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <AuthProvider store={store}>
+      <Router>
+        <AppContent />
+      </Router>
+    </AuthProvider>
   );
 }
 
