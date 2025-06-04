@@ -13,7 +13,6 @@ import rooms from '../../data/rooms';
 import useApiStore from '../../services/api.js';
 import React from 'react';
 
-
 const settings = {
   dots: true,
   infinite: true,
@@ -44,31 +43,29 @@ const experiences = [
     image: hora2,
     title: 'Anoitecer em Vértice',
     time: '16h00 – 18h00',
-    description: 'Uma jornada baseada em uma pergunta que você nos fizer ao chegar. Exemplo: “O que há no pé das pedras?” A resposta virá em forma de trilha, jantar e um objeto misterioso.'
+    description: 'Uma jornada baseada em uma pergunta que você nos fizer ao chegar. Exemplo: "O que há no pé das pedras?" A resposta virá em forma de trilha, jantar e um objeto misterioso.'
   },
   {
     image: hora3,
     title: 'Meio-Dia de Redemoinho',
     time: '11h30 – 12h30',
-    description: 'Deite-se na rede suspensa sobre o rio e deixe que o vento escute o indivíduo. Opções: “Grande Serão-Vertedouro” sussurrado, passeio de Manoel de Barro, código Morse, ou o canto das cigarras em loop infinito.'
+    description: 'Deite-se na rede suspensa sobre o rio e deixe que o vento escute o indivíduo. Opções: "Grande Serão-Vertedouro" sussurrado, passeio de Manoel de Barro, código Morse, ou o canto das cigarras em loop infinito.'
   },
-
-  //alguem faz algum texto e horario p hora4 e 5 pfv --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   {
     image: hora4,
-    title: 'Meio-Dia de Redemoinho',
-    time: '11h30 – 12h30',
-    description: 'Deite-se na rede suspensa sobre o rio e deixe que o vento escute o indivíduo. Opções: “Grande Serão-Vertedouro” sussurrado, passeio de Manoel de Barro, código Morse, ou o canto das cigarras em loop infinito.'
+    title: 'Crepúsculo dos Segredos',
+    time: '17h30 – 19h00',
+    description: 'No limiar entre dia e noite, revelamos histórias escondidas nas paredes. Cada participante receberá um fragmento de memória para decifrar.'
   },
   {
     image: hora5,
-    title: 'Meio-Dia de Redemoinho',
-    time: '11h30 – 12h30',
-    description: 'Deite-se na rede suspensa sobre o rio e deixe que o vento escute o indivíduo. Opções: “Grande Serão-Vertedouro” sussurrado, passeio de Manoel de Barro, código Morse, ou o canto das cigarras em loop infinito.'
+    title: 'Despertar das Sombras',
+    time: '05h00 – 06h30',
+    description: 'Antes do amanhecer, uma caminhada silenciosa pelos jardins, onde cada sombra conta uma história diferente da noite que passou.'
   }
 ];
 
-// Carousel settings for experiences (similar to rooms)
+// Carousel settings for experiences
 const experiencesSettings = {
   dots: true,
   infinite: true,
@@ -87,15 +84,19 @@ const experiencesSettings = {
   ]
 };
 
-//teste da api /get
 const HomePage = () => {
   const { fetchClientes, fetchQuartos, fetchReservas, clientes, quartos, reservas } = useApiStore();
-
+  const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
+  
   // Fetch data when the component mounts
   React.useEffect(() => {
     fetchClientes();
     fetchQuartos();
     fetchReservas();
+    
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [fetchClientes, fetchQuartos, fetchReservas]);
 
   // Log the fetched data
@@ -105,8 +106,19 @@ const HomePage = () => {
     console.log('Reservas:', reservas);
   }, [clientes, quartos, reservas]);
 
+  // Dynamic settings based on window width
+  const dynamicSettings = {
+    ...settings,
+    slidesToShow: windowWidth < 600 ? 1 : windowWidth < 1024 ? 2 : 3
+  };
+
+  const dynamicExpSettings = {
+    ...experiencesSettings,
+    slidesToShow: windowWidth < 600 ? 1 : windowWidth < 1024 ? 2 : 3
+  };
+
   return (
-    <div>
+    <div className="homepage-container">
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
@@ -117,7 +129,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      <img src={divisao} alt="Divisao" className="divisao" />
+      <img src={divisao} alt="Divisão decorativa" className="divisao" />
 
       {/* Rooms Section */}
       <section id="quartos" className="rooms-section">
@@ -125,10 +137,15 @@ const HomePage = () => {
         <div className="rooms-content">
           <h2>Quartos</h2>
           <p>Onde o sono vira ritual</p>
-          <Slider {...settings}>
+          <Slider {...dynamicSettings}>
             {rooms.map((room, idx) => (
               <div className="room-card" key={idx}>
-                <img src={room.image} alt={room.title} className="room-image" />
+                <img 
+                  src={room.image} 
+                  alt={room.title} 
+                  className="room-image" 
+                  loading="lazy"
+                />
                 <div className="room-info">
                   <h3>{room.title}</h3>
                   <p>{room.description}</p>
@@ -144,15 +161,19 @@ const HomePage = () => {
       </section>
 
       {/* Experiences Section */}
-      {/* Experiences Section as Carousel */}
       <section id="experiencias" className="experiences-section">
         <div className="experiences-content">
           <h2>Programamos encontros com o inesperado</h2>
           <p>Aqui, até o ócio tem roteiro.</p>
-          <Slider {...experiencesSettings}>
+          <Slider {...dynamicExpSettings}>
             {experiences.map((exp, idx) => (
               <div className="experience-card" key={idx}>
-                <img src={exp.image} alt={exp.title} className="experience-image" />
+                <img 
+                  src={exp.image} 
+                  alt={exp.title} 
+                  className="experience-image" 
+                  loading="lazy"
+                />
                 <div className="experience-overlay">
                   <div className="experience-time">Horário<br />{exp.time}</div>
                   <h3>{exp.title}</h3>
@@ -162,7 +183,7 @@ const HomePage = () => {
             ))}
           </Slider>
         </div>
-        <img src={linha4} alt="Divisor" className="wave-divider" />
+        <img src={linha4} alt="Divisor decorativo" className="wave-divider" />
       </section>
     </div>
   );
