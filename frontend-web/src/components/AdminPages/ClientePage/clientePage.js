@@ -77,7 +77,10 @@ function Clientes() {
                     <td>{cliente.nome}</td>
                     <td>{cliente.email}</td>
                     <td>{cliente.telefone}</td>
-                    <td>{cliente.senha}</td>
+                    <td>{cliente.senha.length > 19
+                        ? cliente.senha.slice(0, 19) + '...'
+                        : cliente.senha}
+                    </td>
                     <td>
                       <button
                         className="btn-trash"
