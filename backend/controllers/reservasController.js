@@ -168,3 +168,29 @@ export const deletarReserva = async (req, res) => {
       .json({ success: false, message: "Erro interno no servidor" });
   }
 };
+
+export async function getReservasUsuario(req, res) {
+  try {
+    const userId = req.user.id; // id do usuário extraído do token
+
+    const reservas = await sql`
+      SELECT
+        r.id AS reserva_id,
+        q.nome AS quarto_nome,
+        q.imagem_url,
+        q.descricao,
+        r.inicio,
+        r.fim,
+        r.hospedes
+      FROM reservas r
+      JOIN quartos q ON r.quarto_id = q.id
+      WHERE r.cliente_id = ${userId}
+      ORDER BY r.inicio DESC;
+    `;
+
+    res.json(reservas);
+  } catch (error) {
+    console.error('Erro ao buscar reservas:', error);
+    res.status(500).json({ error: 'Erro ao buscar reservas' });
+  }
+}

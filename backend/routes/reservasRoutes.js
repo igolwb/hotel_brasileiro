@@ -1,5 +1,8 @@
 import express from 'express';
-import {buscarReservas, criarReserva, buscarReservaId, atualizarReserva, deletarReserva} from '../controllers/reservasController.js';
+import {buscarReservas, criarReserva, buscarReservaId, 
+        atualizarReserva, deletarReserva, getReservasUsuario} from '../controllers/reservasController.js';
+
+import { authenticateToken } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
@@ -12,5 +15,7 @@ const router = express.Router();
     router.put('/:id', atualizarReserva);
 
     router.delete("/:id", deletarReserva);
+
+    router.get('/minhas-reservas', authenticateToken, getReservasUsuario);
 
     export default router;

@@ -51,12 +51,16 @@ app.post('/api/login', async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { 
+        id: user.id, 
+        email: user.email,
+        role: user.role // Certifique-se que a tabela clientes tem esta coluna
+      },
       JWT_SECRET,
       { expiresIn: '1h' }
     );
 
-    res.status(200).json({ success: true, token });
+    res.status(200).json({  success: true, token, role: user.role });
   } catch (error) {
     console.error('Erro ao realizar login:', error);
     res.status(500).json({ success: false, message: 'Erro interno no servidor.' });
