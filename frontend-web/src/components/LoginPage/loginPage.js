@@ -18,20 +18,25 @@ function LoginPage() {
     try {
       const response = await axios.post('http://localhost:3000/api/login', { email, senha });
   
-      if (response.data.success) {
-        const ok = signIn({
-          auth: {
-            token: response.data.token,
-            type: 'Bearer'
-          },
-          userState: { email }
-        });
-  
-        if (ok) {
-          navigate('/'); // Redireciona para a página inicial após o login
-        } else {
-          alert('Erro ao salvar autenticação. Tente novamente.');
-        }
+if (response.data.success) {
+  const ok = signIn({
+    auth: {
+      token: response.data.token,
+      type: 'Bearer'
+    },
+    userState: { email, role: response.data.role } // salve o role
+  });
+
+  if (ok) {
+    if (response.data.role === 'admin') {
+      navigate('/admin/login'); // Redirecione para tela de admin
+    } else {
+      navigate('/'); // Redirecione para tela normal
+    }
+  } else {
+    alert('Erro ao salvar autenticação. Tente novamente.');
+  }
+
       } else {
         alert('Credenciais inválidas.');
       }
