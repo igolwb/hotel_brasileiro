@@ -1,14 +1,22 @@
-import React from 'react'; 
+import React, { useState } from 'react';
 import logo from '../../assets/logo.svg';
 import './Header.css';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+
+// Hooks do React Auth Kit
+import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import useSignOut from 'react-auth-kit/hooks/useSignOut';
 
 function Header() {
-
   const navigate = useNavigate();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // React Auth Kit hooks
+  const isAuthenticated = useIsAuthenticated(); // booleano
+  const authUser = useAuthUser();
+  const signOut = useSignOut();
 
   // Função para rolagem/navegação híbrida
   function handleScrollOrNavigate(id) {
@@ -17,7 +25,7 @@ function Header() {
       scrollToSection(id);
     } else {
       navigate('/');
-      setTimeout(function() {
+      setTimeout(() => {
         scrollToSection(id);
       }, 100);
     }
@@ -36,47 +44,74 @@ function Header() {
     setIsMenuOpen(!isMenuOpen);
   }
 
+  // Função de logout
+  function handleLogout() {
+    signOut();
+    setIsMenuOpen(false);
+    navigate('/');
+  }
+
   return (
-    React.createElement('header', { className: 'header' },
-      React.createElement('div', { className: 'header-container' },
-        // Logo
-        React.createElement('div', { className: 'logo' },
-          React.createElement('img', { className: 'logo-img', src: logo, alt: 'Logo' }),
-          React.createElement('div', { className: 'logo-text' },
-            React.createElement('div', null, 'Hotel'),
-            React.createElement('div', null, 'Brasileiro')
-          )
-        ),
+    <header className="header">
+      <div className="header-container">
+        {/* Logo */}
+        <div className="logo">
+          <img className="logo-img" src={logo} alt="Logo" />
+          <div className="logo-text">
+            <div>Hotel</div>
+            <div>Brasileiro</div>
+          </div>
+        </div>
 
-        // Menu Hamburguer
-        React.createElement('div', { className: 'menu-toggle', onClick: toggleMenu },
-          React.createElement('span', null),
-          React.createElement('span', null),
-          React.createElement('span', null)
-        ),
+        {/* Menu Hamburguer */}
+        <div className="menu-toggle" onClick={toggleMenu}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
 
-        // Links de navegação
-        React.createElement('nav', { className: `nav-links ${isMenuOpen ? 'active' : ''}` },
-          React.createElement('button', { 
-            className: 'hint1', 
-            onClick: () => handleScrollOrNavigate('quartos') 
-          }, 'Ir para Quartos'),
-          
-          React.createElement('button', { 
-            className: 'hint1', 
-            onClick: () => handleScrollOrNavigate('experiencias') 
-          }, 'Ir para Experiências'),
-          
-          React.createElement('button', { 
-            className: 'login-button', 
-            onClick: () => {
-              setIsMenuOpen(false);
-              navigate('/login');
-            }
-          }, 'Faça seu login')
-        )
-      )
-    )
+        {/* Links de navegação */}
+        <nav className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+          <button
+            className="hint1"
+            onClick={() => handleScrollOrNavigate('quartos')}
+          >
+            Ir para Quartos
+          </button>
+          <button
+            className="hint1"
+            onClick={() => handleScrollOrNavigate('experiencias')}
+          >
+            Ir para Experiências
+          </button>
+
+          {/* Autenticação */}
+          {isAuthenticated ? (
+            <div className="user-info">
+<span className="user-email">
+  {authUser ? `Olá, ${authUser.email}` : 'Usuário'}
+</span>
+              <button
+                className="logout-button"
+                onClick={handleLogout}
+              >
+                Sair
+              </button>
+            </div>
+          ) : (
+            <button
+              className="login-button"
+              onClick={() => {
+                setIsMenuOpen(false);
+                navigate('/login');
+              }}
+            >
+              Faça seu login
+            </button>
+          )}
+        </nav>
+      </div>
+    </header>
   );
 }
 

@@ -29,7 +29,7 @@ if (response.data.success) {
 
   if (ok) {
     if (response.data.role === 'admin') {
-      navigate('/admin/login'); // Redirecione para tela de admin
+      navigate('/admin/clientes'); // Redirecione para tela de admin
     } else {
       navigate('/'); // Redirecione para tela normal
     }
