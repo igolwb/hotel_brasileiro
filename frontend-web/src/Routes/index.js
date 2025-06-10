@@ -10,6 +10,7 @@ import AddQuarto from '../components/AdminPages/EditarQuarto/addQuarto.js';
 import AdminReservas from '../components/AdminPages/ReservasPage/reservasPage.js';
 import EditarReserva from '../components/AdminPages/EditarReserva/editReserva.js';
 import AddReserva from '../components/AdminPages/EditarReserva/addReserva.js';
+import MinhasReservas from '../components/TestReservas/testReservas.js';
 
 
 function AppRoutes() {
@@ -19,6 +20,9 @@ function AppRoutes() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/cadastro" element={<CadastroPage />} />
       <Route path="/reserva/:roomId" element={<ReservaPage />} />
+      <Route path="/minhas-reservas" element={<MinhasReservas />} />
+
+      {/* Rotas de Admin */}
       
       <Route path="/admin/clientes" element={<Clientes />} />
 
