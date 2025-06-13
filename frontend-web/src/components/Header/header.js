@@ -64,12 +64,12 @@ function Header() {
 
         {/* Links de navegação */}
         <nav className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-                    <button
+          <button
             className="hint1"
             onClick={() => {
-                  setIsMenuOpen(false);
-                  navigate('/');
-                }}
+              setIsMenuOpen(false);
+              navigate('/');
+            }}
           >
             Inicio
           </button>
@@ -87,6 +87,19 @@ function Header() {
             Ir para Experiências
           </button>
 
+          {/* Botão Clientes para admin */}
+          {isAuthenticated && authUser && authUser.role === 'admin' && (
+            <button
+              className="hint1"
+              onClick={() => {
+                setIsMenuOpen(false);
+                navigate('/admin/clientes');
+              }}
+            >
+              Admin Dashboard
+            </button>
+          )}
+
           {/* Autenticação */}
           {isAuthenticated ? (
             <div className="user-info">
@@ -99,7 +112,6 @@ function Header() {
               >
                 {authUser ? 'Menu do Usuário' : 'Usuário'}
               </button>
-
             </div>
           ) : (
             <button
