@@ -125,3 +125,20 @@ export const deletarCliente = async(req, res) => {
     }
 
 };
+
+// Buscar dados do usuário autenticado (sem senha)
+export const buscarClienteMe = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const cliente = await sql`
+      SELECT id, nome, email, telefone FROM clientes WHERE id = ${userId}
+    `;
+    if (!cliente[0]) {
+      return res.status(404).json({ success: false, message: 'Cliente não encontrado' });
+    }
+    res.status(200).json({ success: true, data: cliente[0] });
+  } catch (error) {
+    console.error('[GET /clientes/me] Erro:', error);
+    res.status(500).json({ success: false, message: 'Erro interno no servidor' });
+  }
+};

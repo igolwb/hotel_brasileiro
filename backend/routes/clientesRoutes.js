@@ -5,12 +5,14 @@ import {
   buscarClienteId,
   criarCliente,
   atualizarCliente,
-  deletarCliente
+  deletarCliente,
+  buscarClienteMe
 } from '../controllers/clientesController.js';
 
 const router = express.Router();
 
 router.get('/', authenticateToken, buscarClientes);
+router.get('/me', authenticateToken, buscarClienteMe);
 router.get('/:id', authenticateToken, buscarClienteId);
 router.put('/:id', authenticateToken, atualizarCliente);
 router.delete('/:id', authenticateToken, deletarCliente);
