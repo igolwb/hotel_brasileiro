@@ -18,12 +18,15 @@ import { sql } from './config/db.js';
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
-const JWT_SECRET = process.env.JWT_SECRET || 'sua_chave_secreta_super_segura';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 app.use(express.json());
-app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
+app.use(cors({
+  origin: 'http://localhost:3001', // substitua pela URL do seu frontend
+  exposedHeaders: ['Authorization'] // Permite que o frontend acesse o header
+}));
 
 const swaggerDocument = YAML.load(path.join(process.cwd(), 'docs', 'swagger.yaml'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -80,7 +83,8 @@ async function startdb() {
         nome VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL UNIQUE,
         telefone VARCHAR(255) NOT NULL,
-        senha VARCHAR(255) NOT NULL
+        senha VARCHAR(255) NOT NULL,
+        role VARCHAR(50) DEFAULT 'cliente' :: character varying
       );
     `;
 
@@ -89,7 +93,7 @@ async function startdb() {
         id SERIAL PRIMARY KEY,
         imagem_url VARCHAR(255),
         nome VARCHAR(255) NOT NULL,
-        descricao VARCHAR(255),
+        descricao VARCHAR(2555),
         preco DECIMAL(10,2) NOT NULL,
         quantidade INTEGER NOT NULL
       );

@@ -73,8 +73,13 @@ export const atualizarCliente = async(req, res) => {
     const { nome , email, telefone, senha } = req.body;
 
     try {
+        let senhaAtualizada = senha;
+        if (senha) {
+            // Criptografa a senha se ela foi enviada
+            senhaAtualizada = await bcrypt.hash(senha, 10);
+        }
         const clienteAtualizado = await sql `
-        UPDATE  clientes SET nome = ${nome}, email = ${email}, telefone = ${telefone}, senha = ${senha}
+        UPDATE  clientes SET nome = ${nome}, email = ${email}, telefone = ${telefone}, senha = ${senhaAtualizada}
         WHERE id = ${id} 
         RETURNING *
         `
@@ -119,4 +124,21 @@ export const deletarCliente = async(req, res) => {
         
     }
 
+};
+
+// Buscar dados do usuário autenticado (sem senha)
+export const buscarClienteMe = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const cliente = await sql`
+      SELECT id, nome, email, telefone FROM clientes WHERE id = ${userId}
+    `;
+    if (!cliente[0]) {
+      return res.status(404).json({ success: false, message: 'Cliente não encontrado' });
+    }
+    res.status(200).json({ success: true, data: cliente[0] });
+  } catch (error) {
+    console.error('[GET /clientes/me] Erro:', error);
+    res.status(500).json({ success: false, message: 'Erro interno no servidor' });
+  }
 };

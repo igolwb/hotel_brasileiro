@@ -1,17 +1,21 @@
 import express from 'express';
-import { buscarClientes, buscarClienteId, criarCliente, atualizarCliente, deletarCliente } from '../controllers/clientesController.js';
+import { authenticateToken } from '../middlewares/authMiddleware.js';
+import {
+  buscarClientes,
+  buscarClienteId,
+  criarCliente,
+  atualizarCliente,
+  deletarCliente,
+  buscarClienteMe
+} from '../controllers/clientesController.js';
 
 const router = express.Router();
 
-    router.get('/', buscarClientes);
+router.get('/', authenticateToken, buscarClientes);
+router.get('/me', authenticateToken, buscarClienteMe);
+router.get('/:id', authenticateToken, buscarClienteId);
+router.put('/:id', authenticateToken, atualizarCliente);
+router.delete('/:id', authenticateToken, deletarCliente);
+router.post('/', criarCliente);
 
-    router.get('/:id', buscarClienteId);
-
-    router.post('/', criarCliente);
-
-    router.put('/:id', atualizarCliente);
-
-    router.delete('/:id', deletarCliente);
-
-
-    export default router;
+export default router;

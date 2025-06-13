@@ -1,5 +1,5 @@
 .quartos-container {
-    width: 100vw;
+    width: 99vw;
     min-height: 100vh;
     background: #fff;
     display: flex;
@@ -40,21 +40,28 @@
     height: 48px;
   }
   
-  .btn-trash, .btn-edit {
+  .btn-trash, .btn-image {
     background: none;
     border: none;
     cursor: pointer;
     font-size: 1.6rem;
     color: #000;
     transition: color 0.2s;
-    margin: 0 4px;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0 12px;
+    height: 40px;
+    width: 40px;
   }
   
   .btn-trash:hover {
     color: #c00;
   }
   
-  .btn-edit:hover {
+  .btn-image:hover {
     color: #007bff;
   }
   
@@ -67,16 +74,11 @@
     font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: 0.2s;
     text-decoration: none;
     margin-bottom: 30px;
   }
   
   .btn-add:hover {
     background: #d4d4d4;
-  }
-  
-  .btn-image {
-    border: none;
-    background: none;
   }

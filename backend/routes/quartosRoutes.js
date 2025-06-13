@@ -1,17 +1,19 @@
 import express from 'express';
-import { buscarQuartos, buscarQuartoId, criarQuarto, atualizarQuarto, deletarQuarto } from '../controllers/quartosController.js';
+import { authenticateToken } from '../middlewares/authMiddleware.js';
+import {
+  buscarQuartos,
+  buscarQuartoId,
+  criarQuarto,
+  atualizarQuarto,
+  deletarQuarto
+} from '../controllers/quartosController.js';
 
 const router = express.Router();
 
-    router.get('/', buscarQuartos);
+router.get('/:id', buscarQuartoId);
+router.post('/', authenticateToken, criarQuarto);
+router.put('/:id', authenticateToken, atualizarQuarto);
+router.get('/' , buscarQuartos);
+router.delete('/:id', deletarQuarto);
 
-    router.get('/:id', buscarQuartoId);
-
-    router.post('/', criarQuarto);
-
-    router.put('/:id', atualizarQuarto);
-
-    router.delete('/:id', deletarQuarto);
-
-
-    export default router;
+export default router;

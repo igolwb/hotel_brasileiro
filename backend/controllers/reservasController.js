@@ -18,30 +18,23 @@ export const buscarReservas = async (req, res) => {
 };
 
 export const criarReserva = async (req, res) => {
-  const { quarto_id, cliente_id, hospedes, inicio, fim } = req.body;
+  const { quarto_id, hospedes, inicio, fim } = req.body;
+  const cliente_id = req.user.id; // PEGA DO TOKEN JWT
 
-  // Validação dos dados de entrada
   if (!quarto_id || !cliente_id || !hospedes || !inicio || !fim) {
-    console.warn("[POST /reservas] Campos obrigatórios não preenchidos:", req.body);
     return res.status(400).json({ error: "Todos os campos são obrigatórios" });
   }
 
   if (isNaN(quarto_id) || isNaN(cliente_id) || isNaN(hospedes)) {
-    console.warn("[POST /reservas] IDs ou número de hóspedes inválidos:", req.body);
-    return res
-      .status(400)
-      .json({ error: "IDs e número de hóspedes devem ser números" });
+    return res.status(400).json({ error: "IDs e número de hóspedes devem ser números" });
   }
 
   if (new Date(inicio) >= new Date(fim)) {
-    console.warn("[POST /reservas] Datas inválidas: início >= fim", { inicio, fim });
-    return res
-      .status(400)
-      .json({ error: "A data de início deve ser anterior à data de fim" });
+    return res.status(400).json({ error: "A data de início deve ser anterior à data de fim" });
   }
 
   try {
-    // Passo 1: Verificar disponibilidade
+    // Verificar disponibilidade
     const disponibilidadeResult = await sql`
       SELECT 
         q.quantidade AS total_quartos,
@@ -54,22 +47,19 @@ export const criarReserva = async (req, res) => {
       GROUP BY q.quantidade;
     `;
 
-    // Verificar se o quarto existe
     if (disponibilidadeResult.length === 0) {
-      console.warn(`[POST /reservas] Quarto não encontrado: quarto_id=${quarto_id}`);
       return res.status(404).json({ error: "Quarto não encontrado" });
     }
 
     const { total_quartos, reservas_no_periodo } = disponibilidadeResult[0];
 
     if (reservas_no_periodo >= total_quartos) {
-      console.warn(`[POST /reservas] Não há quartos disponíveis para o período: quarto_id=${quarto_id}, inicio=${inicio}, fim=${fim}`);
       return res.status(400).json({
         error: "Não há quartos disponíveis para este período",
       });
     }
 
-    // Passo 2: Inserir reserva
+    // Inserir reserva
     const reservaResult = await sql`
       INSERT INTO reservas 
         (quarto_id, cliente_id, hospedes, inicio, fim)
@@ -78,10 +68,9 @@ export const criarReserva = async (req, res) => {
       RETURNING *;
     `;
 
-    console.log("[POST /reservas] Nova reserva criada:", reservaResult[0]);
     res.status(201).json(reservaResult[0]);
   } catch (error) {
-    console.error("[POST /reservas] Erro na função criarReserva:", error.message, error.stack);
+    console.error("Erro ao criar reserva:", error);
     res.status(500).json({ error: "Erro ao processar a reserva" });
   }
 };
