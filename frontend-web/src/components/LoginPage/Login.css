@@ -116,3 +116,55 @@ body {
   .home-icon {
     width: 17%;
   }
+
+  /* ===== DESKTOP (APENAS PARA TELAS GRANDES) ===== */
+@media (min-width: 769px) {
+  .container {
+    flex-direction: row;
+    height: 100vh;
+  }
+
+  .left-panel {
+    flex: 1;
+    height: auto;
+    padding: 60px;
+    /* Ativa o triângulo no desktop */
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .logo-title-row {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  /* Logo maior e responsiva no desktop */
+  .logo-img-login {
+    max-width: 120px;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Mostra título e frases no desktop */
+  .left-panel h1,
+  .left-panel h2,
+  .left-panel p {
+    display: block;
+    
+  }
+
+  .right-panel {
+    flex: 1;
+    padding: 20px;
+  }
+
+  .login-form {
+    max-width: 400px;
+    gap: 16px;
+  }
+
+  .login-form h2 {
+    font-size: 2rem;
+  }
+}

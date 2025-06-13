@@ -277,5 +277,216 @@
     color: #666;
     font-weight: 500;
   }
+
+  /* ===== MOBILE FIRST (TELAS PEQUENAS) ===== */
+@media (max-width: 767px) {
+  /* Container Principal */
+  .reservation-container {
+    padding: 20px; /* Reduzindo o padding */
+    margin: 20px auto;
+    max-width: 100%; /* Garante que o container ocupe toda a largura da tela */
+  }
+
+  /* Ajuste para os passos da reserva */
+  .reservation-steps {
+    flex-direction: column;
+    gap: 20px; /* Menor espaçamento entre os passos */
+  }
+
+  /* Estilo dos passos */
+  .step {
+    padding: 20px; /* Reduzindo o padding */
+  }
+
+  /* Ajustando a largura do número da etapa */
+  .step-number {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  /* Ajustes na seção de conteúdo do passo */
+  .step-content h2 {
+    font-size: 18px; /* Menor título */
+  }
+  
+  .step-content h3 {
+    font-size: 16px; /* Menor subtítulo */
+  }
+
+  /* Ajustes nos campos de data */
+  .date-field label {
+    font-size: 12px; /* Fonte menor */
+  }
+
+  .date-field input[type="date"] {
+    padding: 8px 10px; /* Menor padding */
+    font-size: 12px;
+  }
+
+  /* Ajustes no contador de hóspedes */
+  .guest-counter h3 {
+    font-size: 14px; /* Fonte menor */
+  }
+
+  .guest-counter select {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  /* Ajustes nos cartões de quarto */
+  .room-card {
+    flex-direction: column; /* Layout em coluna */
+    gap: 10px; /* Menor espaço entre os itens */
+  }
+
+  .room-image {
+    height: 150px; /* Reduzindo a altura da imagem */
+  }
+
+  .room-info h3 {
+    font-size: 1rem; /* Fonte menor para o título */
+  }
+
+  .room-info p {
+    font-size: 0.9rem; /* Fonte menor para os parágrafos */
+  }
+
+  .room-info ul {
+    font-size: 0.85rem; /* Fonte menor para os itens de lista */
+  }
+
+  /* Ajustes na seção de resumo de checkout */
+  .checkout-summary h3 {
+    font-size: 16px; /* Tamanho menor do título */
+  }
+
+  .dates-summary p {
+    font-size: 12px; /* Fonte menor */
+  }
+
+  .experience-added h4 {
+    font-size: 14px; /* Fonte menor para o subtítulo */
+  }
+
+  .experience-added p {
+    font-size: 12px;
+  }
+
+  .price-total h3 {
+    font-size: 14px; /* Fonte menor para o título */
+  }
+
+  .price-total h2 {
+    font-size: 18px; /* Fonte menor para o valor total */
+  }
+
+  /* Ajustes na seção de pagamento */
+  .payment-section h3 {
+    font-size: 15px; /* Fonte menor para o título */
+  }
+
+  .payment-section p {
+    font-size: 12px; /* Fonte menor para o parágrafo */
+  }
+
+  .pix-key h4 {
+    font-size: 12px; /* Fonte menor */
+  }
+
+  .pix-key code {
+    font-size: 12px; /* Fonte menor */
+  }
+
+  /* Ajustes no botão de confirmação */
+  .confirm-button {
+    padding: 12px 24px; /* Menor padding */
+    font-size: 14px; /* Fonte menor */
+  }
+
+  /* Ajustes no estado de loading */
+  .loading {
+    font-size: 16px; /* Fonte menor */
+    padding: 40px; /* Menos padding */
+  }
+}
+
+/* ===== TABLETS (TELAS INTERMEDIÁRIAS) ===== */
+@media (max-width: 1024px) and (min-width: 768px) {
+  .reservation-container {
+    padding: 25px;
+  }
+
+  .reservation-steps {
+    gap: 25px; /* Menor espaçamento entre os passos */
+  }
+
+  .step {
+    padding: 20px;
+  }
+
+  .step-number {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .step-content h2 {
+    font-size: 20px; /* Tamanho do título ajustado */
+  }
+
+  .step-content h3 {
+    font-size: 17px;
+  }
+
+  .date-field input[type="date"] {
+    padding: 10px 12px; /* Aumento leve no padding */
+  }
+
+  .guest-counter select {
+    padding: 10px 12px;
+  }
+
+  .room-card {
+    gap: 15px;
+  }
+
+  .room-image {
+    height: 170px; /* Ajustando a altura das imagens */
+  }
+
+  .room-info h3 {
+    font-size: 1.1rem;
+  }
+
+  .room-info p {
+    font-size: 0.95rem;
+  }
+
+  .checkout-summary h3 {
+    font-size: 17px;
+  }
+
+  .price-total h3 {
+    font-size: 15px;
+  }
+
+  .price-total h2 {
+    font-size: 22px;
+  }
+
+  .payment-section h3 {
+    font-size: 16px;
+  }
+
+  .pix-key code {
+    font-size: 13px;
+  }
+
+  .confirm-button {
+    padding: 13px 26px;
+    font-size: 15px;
+  }
+}
   
  
