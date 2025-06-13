@@ -49,7 +49,7 @@ function CadastroPage() {
     try {
       await createCliente(form);
       setSuccess('Cadastro realizado com sucesso!');
-      setTimeout(() => navigate('/login'), 1500);
+      setTimeout(() => navigate('/'), 1500);
     } catch (err) {
       setError('Erro ao cadastrar. Tente novamente.');
     }
@@ -146,14 +146,13 @@ function CadastroPage() {
             ),
             React.createElement(
               'div',
-              { className: 'back-home' },
+              { className: 'back-home', onClick: () => navigate('/'), style: { cursor: 'pointer' } },
               [
                 React.createElement('p', null, 'Volte para o início'),
                 React.createElement('img', {
                   className: 'home-icon',
                   src: homeimg,
-                  alt: 'Home',
-                  onClick: () => navigate('/')
+                  alt: 'Home'
                 })
               ]
             )
