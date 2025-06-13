@@ -101,18 +101,6 @@ function Clientes() {
           <button className="pagination-btn" onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages}>Próxima</button>
         </div>
 
-        {showModal && (
-          <div className="modal-bg" onClick={fecharModal}>
-            <div className="modal" onClick={e => e.stopPropagation()}>
-              <h2>Confirmar Exclusão</h2>
-              <p>Deseja realmente excluir o cliente <b>{clienteSelecionado?.nome}</b>?</p>
-              <div className="modal-actions">
-                <button className="btn-cancel" onClick={fecharModal}>Cancelar</button>
-                <button className="btn-confirm" onClick={confirmarExclusao}>Excluir</button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </>
   );
