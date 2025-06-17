@@ -1,4 +1,4 @@
-import "./Login.css";
+import "./LoginPage.css";
 import homeimg from "../../assets/Home.svg";
 import logo from '../../assets/logo.svg';
 import { useNavigate, Link } from 'react-router-dom';
@@ -6,43 +6,45 @@ import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import axios from 'axios';
 import { useState } from 'react';
 
+// Componente de página de login do sistema
 function LoginPage() {
+  // Hook de navegação do React Router
   const navigate = useNavigate();
+  // Hook de autenticação do react-auth-kit
   const signIn = useSignIn();
+  // Estado para email, senha e mensagem de erro
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
 
+  // Função para tratar o envio do formulário de login
   const handleLogin = async (e) => {
     e.preventDefault();
-  
+    setErrorMsg('');
     try {
-      const response = await axios.post('http://localhost:3000/api/login', { email, senha });
-  
-if (response.data.success) {
-  const ok = signIn({
-    auth: {
-      token: response.data.token,
-      type: 'Bearer'
-    },
-    userState: { email, role: response.data.role } // salve o role
-  });
-
-  if (ok) {
-    if (response.data.role === 'admin') {
-      navigate('/admin/clientes'); // Redirecione para tela de admin
-    } else {
-      navigate('/'); // Redirecione para tela normal
-    }
-  } else {
-    alert('Erro ao salvar autenticação. Tente novamente.');
-  }
-
+      const response = await axios.post('https://hotel-brasileiro-back.onrender.com/api/login', { email, senha });
+      if (response.data.success) {
+        const ok = signIn({
+          auth: {
+            token: response.data.token,
+            type: 'Bearer'
+          },
+          userState: { email, role: response.data.role }
+        });
+        if (ok) {
+          if (response.data.role === 'admin') {
+            navigate('/admin/clientes');
+          } else {
+            navigate('/');
+          }
+        } else {
+          setErrorMsg('Erro ao salvar autenticação. Tente novamente.');
+        }
       } else {
-        alert('Credenciais inválidas.');
+        setErrorMsg('Credenciais inválidas.');
       }
     } catch (error) {
-      console.error('Erro ao realizar login:', error);
-      alert('Erro ao realizar login. Tente novamente.');
+      setErrorMsg('Erro ao realizar login. Tente novamente.');
     }
   };
 
@@ -85,6 +87,9 @@ if (response.data.success) {
           <Link className="hint" to="/cadastro" onClick={() => navigate('/cadastro')}>
             Crie sua conta e desvende o hotel
           </Link>
+          {errorMsg && (
+            <div style={{ color: 'red', fontSize: '0.95rem', marginBottom: '8px', textAlign: 'center' }}>{errorMsg}</div>
+          )}
           <button type="submit">Desbloquear estadia</button>
           <div className="back-home">
             <p>Volte para o início</p>

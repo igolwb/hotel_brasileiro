@@ -10,37 +10,53 @@ import delete_btn from '../../../assets/delete_btn.svg';
 const QUARTOS_PER_PAGE = 10;
 
 function Quartos() {
+  // Hook customizado para autenticação de admin
   const { authUser, authHeader } = useAuthAdmin();
+
+  // Hooks e métodos da store de API para quartos
   const { quartos, loading, fetchQuartos, deleteQuarto } = useApiStore();
 
+  // Estado para controlar a página atual da paginação
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Estado para exibir o modal de confirmação de exclusão
   const [showModal, setShowModal] = useState(false);
+
+  // Estado para armazenar o quarto selecionado para exclusão
   const [quartoSelecionado, setQuartoSelecionado] = useState(null);
 
   const navigate = useNavigate();
 
+  // Busca os quartos ao carregar o componente ou quando o admin muda
   useEffect(() => {
     if (authUser) {
       fetchQuartos(authHeader);
     }
   }, [fetchQuartos, authUser, authHeader]);
 
+  // Calcula o índice do primeiro e último quarto da página atual
   const indexOfLastQuarto = currentPage * QUARTOS_PER_PAGE;
   const indexOfFirstQuarto = indexOfLastQuarto - QUARTOS_PER_PAGE;
+
+  // Lista de quartos da página atual
   const currentQuartos = quartos.slice(indexOfFirstQuarto, indexOfLastQuarto);
 
+  // Calcula o total de páginas para a paginação
   const totalPages = Math.ceil(quartos.length / QUARTOS_PER_PAGE);
 
+  // Abre o modal de confirmação de exclusão para o quarto selecionado
   const abrirModal = (quarto) => {
     setQuartoSelecionado(quarto);
     setShowModal(true);
   };
 
+  // Fecha o modal de confirmação
   const fecharModal = () => {
     setShowModal(false);
     setQuartoSelecionado(null);
   };
 
+  // Confirma a exclusão do quarto selecionado
   const confirmarExclusao = () => {
     if (quartoSelecionado) {
       deleteQuarto(quartoSelecionado.id, authHeader);
@@ -48,6 +64,7 @@ function Quartos() {
     }
   };
 
+  // Calcula quantas linhas vazias preencher para manter a tabela alinhada
   const linhasVazias = Math.max(0, QUARTOS_PER_PAGE - currentQuartos.length);
 
   return (

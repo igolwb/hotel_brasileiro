@@ -4,12 +4,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useAuthAdmin from '../../../hooks/adminAuth.js';
 import './formQuarto.css';
 
+// Componente para editar um quarto existente
 function EditarQuarto() {
+  // Recupera autenticação de admin, navegação e id do quarto
   const { authUser, authHeader } = useAuthAdmin();
   const { id } = useParams();
   const navigate = useNavigate();
+  // Funções da store para buscar e atualizar quarto
   const { getQuartoById, updateQuarto, loading } = useApiStore();
 
+  // Estado do formulário do quarto
   const [form, setForm] = useState({
     nome: '',
     descricao: '',
@@ -18,6 +22,7 @@ function EditarQuarto() {
     imagem_url: ''
   });
 
+  // Busca os dados do quarto ao carregar o componente
   useEffect(() => {
     async function fetchData() {
       const data = await getQuartoById(id, authHeader);
@@ -34,11 +39,13 @@ function EditarQuarto() {
     if(authUser) fetchData();
   }, [id, getQuartoById, authHeader, authUser]);
 
+  // Atualiza o estado do formulário ao digitar nos campos
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
+  // Envia o formulário para atualizar o quarto
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

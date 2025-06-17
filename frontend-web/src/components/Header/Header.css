@@ -19,9 +19,9 @@
 }
 
 .logo-img {
-  width: 60px;
-  height: auto;
-  padding-right: 1rem; 
+  width: 15%;
+
+  padding-right: 1.5rem; 
 }
 
 .logo-text {
@@ -86,10 +86,10 @@
 
 
 @media (max-width: 992px) {
-  .logo-img {
-    width: 50px; 
-    padding-right: 0.8rem;
-  }
+.logo-img {
+  width: 14%;
+  padding-right: 1.5rem; 
+}
   
   .logo-text {
     font-size: 1.3rem;
@@ -107,13 +107,16 @@
     font-size: 0.9rem;
     padding: 0.5rem 0.8rem;
   }
-  .user-menu-button {
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-    margin-left: 0.5rem;
-  }
+
 }
 @media (max-width: 768px) {
+  .logo-img {
+  width: 12%;
+  padding-right: 1.5rem; 
+}
+  .logo-text {
+    font-size: 1rem;
+  }
   .header-container {
     flex-direction: column; 
     align-items: flex-start;
@@ -130,13 +133,28 @@
   
   .nav-links.active {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
   }
-  
+
   .hint1, .login-button, .user-menu-button {
-    width: 100%;
-    text-align: left;
-    padding: 0.5rem 0;
+    width: 88%;
+    text-align: center;
+  background: #005fa3;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #0001;
+  transition: 0.2s, box-shadow 0.2s;
   }
+
+    .user-menu-button {
+  padding: 0.6rem 10rem;
+}
   
   .login-button {
     margin-top: 0.5rem;
@@ -145,7 +163,7 @@
   .menu-toggle {
     display: block;
     position: absolute;
-    top: 1rem;
+    top: 1.7rem;
     right: 1rem;
     cursor: pointer;
   }

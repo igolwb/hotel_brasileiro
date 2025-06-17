@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import HomePage from '../components/HomePage/homePage.js';
 import LoginPage from '../components/LoginPage/loginPage.js';
-import CadastroPage from '../components/CadastroPage/cadastro.js';
-import ReservaPage from '../components/ReservaPage/reservaPage.js';
+import CadastroPage from '../components/CadastroPage/cadastroPage.js';
+import ReservaPage from '../components/ReservarPage/reservarPage.js';
 import Clientes from '../components/AdminPages/ClientePage/clientePage.js';
 import Quartos from '../components/AdminPages/QuartoPage/quartoPage.js';
 import EditarQuarto from '../components/AdminPages/EditarQuarto/editQuarto.js';
@@ -10,7 +10,7 @@ import AddQuarto from '../components/AdminPages/EditarQuarto/addQuarto.js';
 import AdminReservas from '../components/AdminPages/ReservasPage/reservasPage.js';
 import EditarReserva from '../components/AdminPages/EditarReserva/editReserva.js';
 import AddReserva from '../components/AdminPages/EditarReserva/addReserva.js';
-import MinhasReservas from '../components/TestReservas/testReservas.js';
+import MinhasReservas from '../components/MenuUser/menuUser.js';
 
 
 function AppRoutes() {

@@ -57,10 +57,12 @@ const experiences = [
 ];
 
 const HomePage = () => {
+  // Estado para armazenar os quartos buscados da API
   const [rooms, setRooms] = useState([]);
 
+  // Busca os quartos do backend ao carregar a página
   useEffect(() => {
-    fetch('http://localhost:3000/api/quartos')
+    fetch('https://hotel-brasileiro-back.onrender.com/api/quartos')
       .then(res => res.json())
       .then(data => {
         if (data.success && data.data) setRooms(data.data);
@@ -70,7 +72,7 @@ const HomePage = () => {
 
   return (
     <div>
-      {/* Hero Section */}
+      {/* Seção principal */}
       <section className="hero-section">
         <div className="hero-content">
           <h1>
@@ -82,7 +84,7 @@ const HomePage = () => {
 
       <img src={divisao} alt="Divisao" className="divisao" />
 
-      {/* Rooms Section */}
+      {/* Seção dos quartos */}
       <section id="quartos" className="rooms-section">
         <div className="rooms-stripes"></div>
         <div className="rooms-content">
@@ -103,7 +105,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Experiences Section */}
+      {/* Seção de experiencias */}
       <section id="experiencias" className="experiences-section">
         <div className="experiences-content">
           <h2>Programamos encontros com o inesperado</h2>

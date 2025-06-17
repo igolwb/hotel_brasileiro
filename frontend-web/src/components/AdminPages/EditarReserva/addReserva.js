@@ -4,11 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import useAuthAdmin from '../../../hooks/adminAuth.js';
 import './formReserva.css';
 
+// Componente para adicionar uma nova reserva
 function AddReserva() {
+  // Recupera autenticação de admin e navegação
   const { authUser, authHeader } = useAuthAdmin();
   const navigate = useNavigate();
+  // Função da store para criar reserva
   const { createReserva, loading } = useApiStore();
 
+  // Estado do formulário da reserva
   const [form, setForm] = useState({
     quarto_id: '',
     cliente_id: '',
@@ -17,6 +21,7 @@ function AddReserva() {
     fim: ''
   });
 
+  // Atualiza o estado do formulário ao digitar nos campos
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({
@@ -25,6 +30,7 @@ function AddReserva() {
     }));
   };
 
+  // Envia o formulário para criar uma nova reserva
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

@@ -9,8 +9,11 @@ import useAuthAdmin from '../../../hooks/adminAuth.js';
 
 const RESERVAS_PER_PAGE = 10;
 
+// Componente principal da página de reservas do admin
 function AdminReservas() {
+  // Hook customizado para autenticação de admin
   const { authUser, authHeader } = useAuthAdmin();
+  // Hooks e métodos da store de API para reservas
   const {
     reservas,
     loading,
@@ -18,34 +21,47 @@ function AdminReservas() {
     deleteReserva,
   } = useApiStore();
 
+  // Estado para controlar a página atual da paginação
   const [currentPage, setCurrentPage] = useState(1);
+  
+  // Estado para exibir o modal de confirmação de exclusão
   const [showModal, setShowModal] = useState(false);
+
+  // Estado para armazenar a reserva selecionada para exclusão
   const [reservaSelecionada, setReservaSelecionada] = useState(null);
 
   const navigate = useNavigate();
 
+  // Busca as reservas ao carregar o componente ou quando o admin muda
   useEffect(() => {
     if (authUser) {
       fetchReservas(authHeader);
     }
   }, [fetchReservas, authUser, authHeader]);
 
+  // Calcula o índice do primeiro e último reserva da página atual
   const indexOfLastReserva = currentPage * RESERVAS_PER_PAGE;
   const indexOfFirstReserva = indexOfLastReserva - RESERVAS_PER_PAGE;
+
+  // Lista de reservas da página atual
   const currentReservas = reservas.slice(indexOfFirstReserva, indexOfLastReserva);
 
+  // Calcula o total de páginas para a paginação
   const totalPages = Math.ceil(reservas.length / RESERVAS_PER_PAGE);
 
+  // Abre o modal de confirmação de exclusão para a reserva selecionada
   const abrirModal = (reserva) => {
     setReservaSelecionada(reserva);
     setShowModal(true);
   };
 
+  // Fecha o modal de confirmação
   const fecharModal = () => {
     setShowModal(false);
     setReservaSelecionada(null);
   };
 
+  // Confirma a exclusão da reserva selecionada
   const confirmarExclusao = () => {
     if (reservaSelecionada) {
       deleteReserva(reservaSelecionada.id);
@@ -53,7 +69,18 @@ function AdminReservas() {
     }
   };
 
+  // Calcula quantas linhas vazias preencher para manter a tabela alinhada
   const linhasVazias = Math.max(0, RESERVAS_PER_PAGE - currentReservas.length);
+
+  // Função utilitária para formatar datas no formato dd/mm/yyyy
+  function formatarData(dataStr) {
+    if (!dataStr) return '';
+    const data = new Date(dataStr);
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const ano = data.getFullYear();
+    return `${dia}/${mes}/${ano}`;
+  }
 
   return (
     <>
@@ -69,13 +96,14 @@ function AdminReservas() {
               <th>Hóspedes</th>
               <th>Início</th>
               <th>Fim</th>
+              <th>Preço Total</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={7} style={{ textAlign: 'center' }}>Carregando...</td>
+                <td colSpan={8} style={{ textAlign: 'center' }}>Carregando...</td>
               </tr>
             ) : (
               <>
@@ -85,8 +113,9 @@ function AdminReservas() {
                     <td>{reserva.quarto_id}</td>
                     <td>{reserva.cliente_id}</td>
                     <td>{reserva.hospedes}</td>
-                    <td>{reserva.inicio}</td>
-                    <td>{reserva.fim}</td>
+                    <td>{formatarData(reserva.inicio)}</td>
+                    <td>{formatarData(reserva.fim)}</td>
+                    <td>{reserva.preco_total ? `R$ ${Number(reserva.preco_total).toFixed(2)}` : '-'}</td>
                     <td>
                       <button 
                         className="btn-trash" 
@@ -106,6 +135,7 @@ function AdminReservas() {
                 {Array.from({ length: linhasVazias }).map((_, idx) => (
                   <tr key={`empty-${idx}`}>
                     <td>&nbsp;</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>

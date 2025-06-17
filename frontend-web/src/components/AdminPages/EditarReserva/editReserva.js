@@ -4,12 +4,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useAuthAdmin from '../../../hooks/adminAuth.js';
 import './formReserva.css';
 
+// Componente para editar uma reserva existente
 function EditarReserva() {
+  // Recupera autenticação de admin, navegação e id da reserva
   const { authUser, authHeader } = useAuthAdmin();
   const { id } = useParams();
   const navigate = useNavigate();
+  // Funções da store para buscar e atualizar reserva
   const { getReservaById, updateReserva, loading } = useApiStore();
 
+  // Estado do formulário da reserva
   const [form, setForm] = useState({
     quarto_id: '',
     cliente_id: '',
@@ -18,6 +22,7 @@ function EditarReserva() {
     fim: ''
   });
 
+  // Busca os dados da reserva ao carregar o componente
   useEffect(() => {
     async function fetchData() {
       const data = await getReservaById(id);
@@ -34,6 +39,7 @@ function EditarReserva() {
     fetchData();
   }, [id, getReservaById]);
 
+  // Atualiza o estado do formulário ao digitar nos campos
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({
@@ -42,6 +48,7 @@ function EditarReserva() {
     }));
   };
 
+  // Envia o formulário para atualizar a reserva
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

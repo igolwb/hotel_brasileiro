@@ -4,11 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import useAuthAdmin from '../../../hooks/adminAuth.js';
 import './formQuarto.css';
 
+// Componente para adicionar um novo quarto
 function AddQuarto() {
+  // Recupera autenticação de admin e navegação
   const { authUser, authHeader } = useAuthAdmin();
   const navigate = useNavigate();
+  // Função da store para criar quarto
   const { createQuarto, loading } = useApiStore();
 
+  // Estado do formulário do quarto
   const [form, setForm] = useState({
     nome: '',
     descricao: '',
@@ -17,11 +21,13 @@ function AddQuarto() {
     imagem_url: ''
   });
 
+  // Atualiza o estado do formulário ao digitar nos campos
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
+  // Envia o formulário para criar um novo quarto
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -31,6 +37,7 @@ function AddQuarto() {
       alert('Erro ao criar o quarto. Tente novamente.');
     }
   };
+  
   return (
     <div className="editar-quarto-container">
       <h1 className="editar-quarto-title">Adicionar Quarto</h1>
