@@ -1,5 +1,6 @@
 import { sql } from "../config/db.js";
 
+// Busca todos os quartos cadastrados, ordenados por id decrescente
 export const buscarQuartos = async (req, res) => {
     try {
         const quartos = await sql`
@@ -16,6 +17,7 @@ export const buscarQuartos = async (req, res) => {
     }
 };
 
+// Cria um novo quarto no banco de dados, validando campos obrigatórios
 export const criarQuarto = async (req, res) => {
     const { imagem_url, nome, descricao, preco, quantidade } = req.body;
 
@@ -39,6 +41,7 @@ export const criarQuarto = async (req, res) => {
     }
 };
 
+// Busca um quarto específico pelo id fornecido na URL
 export const buscarQuartoId = async (req, res) => {
     const { id } = req.params;
 
@@ -60,6 +63,7 @@ export const buscarQuartoId = async (req, res) => {
     }
 };
 
+// Atualiza os dados de um quarto pelo id
 export const atualizarQuarto = async (req, res) => {
     const { id } = req.params;
     const { imagem_url, nome, descricao, preco, quantidade } = req.body;
@@ -85,6 +89,7 @@ export const atualizarQuarto = async (req, res) => {
     }
 };
 
+// Deleta um quarto do banco de dados pelo id fornecido
 export const deletarQuarto = async (req, res) => {
     const { id } = req.params;
 

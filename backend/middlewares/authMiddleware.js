@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 
+//função de autenticação de token JWT
 export function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];

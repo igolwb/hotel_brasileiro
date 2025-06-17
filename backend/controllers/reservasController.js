@@ -1,5 +1,6 @@
 import { sql } from "../config/db.js";
 
+// Busca todas as reservas cadastradas no banco de dados, ordenadas por id decrescente
 export const buscarReservas = async (req, res) => {
   try {
     const reservas = await sql`
@@ -17,6 +18,7 @@ export const buscarReservas = async (req, res) => {
   }
 };
 
+// Cria uma nova reserva, validando disponibilidade, datas e calculando o preço total
 export const criarReserva = async (req, res) => {
   const { quarto_id, hospedes, inicio, fim } = req.body;
   const cliente_id = req.user.id; // PEGA DO TOKEN JWT
@@ -38,20 +40,21 @@ export const criarReserva = async (req, res) => {
     const disponibilidadeResult = await sql`
       SELECT 
         q.quantidade AS total_quartos,
+        q.preco,
         COUNT(r.id) AS reservas_no_periodo
       FROM quartos q
       LEFT JOIN reservas r 
         ON r.quarto_id = q.id 
         AND (r.inicio <= ${fim} AND r.fim >= ${inicio})
       WHERE q.id = ${quarto_id}
-      GROUP BY q.quantidade;
+      GROUP BY q.quantidade, q.preco;
     `;
 
     if (disponibilidadeResult.length === 0) {
       return res.status(404).json({ error: "Quarto não encontrado" });
     }
 
-    const { total_quartos, reservas_no_periodo } = disponibilidadeResult[0];
+    const { total_quartos, reservas_no_periodo, preco } = disponibilidadeResult[0];
 
     if (reservas_no_periodo >= total_quartos) {
       return res.status(400).json({
@@ -59,22 +62,35 @@ export const criarReserva = async (req, res) => {
       });
     }
 
-    // Inserir reserva
+    // Calcular número de diárias
+    const dataInicio = new Date(inicio);
+    const dataFim = new Date(fim);
+    const diffTime = dataFim - dataInicio;
+    const diarias = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if (diarias <= 0) {
+      return res.status(400).json({ error: "A data de fim deve ser após a data de início." });
+    }
+
+    // Calcular preço total
+    const preco_total = Number(preco) * diarias;
+
+    // Inserir reserva com preco_total
     const reservaResult = await sql`
       INSERT INTO reservas 
-        (quarto_id, cliente_id, hospedes, inicio, fim)
+        (quarto_id, cliente_id, hospedes, inicio, fim, preco_total)
       VALUES 
-        (${quarto_id}, ${cliente_id}, ${hospedes}, ${inicio}, ${fim})
+        (${quarto_id}, ${cliente_id}, ${hospedes}, ${inicio}, ${fim}, ${preco_total})
       RETURNING *;
     `;
 
-    res.status(201).json(reservaResult[0]);
+    res.status(201).json({ success: true, data: reservaResult[0] });
   } catch (error) {
     console.error("Erro ao criar reserva:", error);
     res.status(500).json({ error: "Erro ao processar a reserva" });
   }
 };
 
+// Busca uma reserva específica pelo id fornecido na URL
 export const buscarReservaId = async (req, res) => {
   const { id } = req.params;
 
@@ -100,6 +116,7 @@ export const buscarReservaId = async (req, res) => {
   }
 };
 
+// Atualiza os dados de uma reserva pelo id
 export const atualizarReserva = async (req, res) => {
   const { id } = req.params;
   const { quarto_id, cliente_id, hospedes, inicio, fim } = req.body;
@@ -129,6 +146,7 @@ export const atualizarReserva = async (req, res) => {
   }
 };
 
+// Deleta uma reserva do banco de dados pelo id fornecido
 export const deletarReserva = async (req, res) => {
   const { id } = req.params;
 
@@ -158,6 +176,7 @@ export const deletarReserva = async (req, res) => {
   }
 };
 
+// Busca todas as reservas do usuário autenticado, trazendo informações do quarto
 export async function getReservasUsuario(req, res) {
   try {
     const userId = req.user.id; // id do usuário extraído do token

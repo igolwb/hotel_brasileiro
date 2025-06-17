@@ -15,23 +15,27 @@ import reservasRoutes from './routes/reservasRoutes.js';
 
 import { sql } from './config/db.js';
 
+// Importação dos módulos necessários para o servidor Express, segurança, logs, CORS, variáveis de ambiente, documentação Swagger, autenticação e banco de dados
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 const JWT_SECRET = process.env.JWT_SECRET;
 
+// Middlewares globais para segurança, logs, CORS e JSON
 app.use(express.json());
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(cors({
-  origin: 'http://localhost:3001', // substitua pela URL do seu frontend
+  origin: 'https://hotel-brasileiro-front.vercel.app',
   exposedHeaders: ['Authorization'] // Permite que o frontend acesse o header
 }));
 
+// Carrega e serve a documentação Swagger na rota /api-docs
 const swaggerDocument = YAML.load(path.join(process.cwd(), 'docs', 'swagger.yaml'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// Nova rota de autenticação
+// Rota de login: autentica o usuário, valida senha e retorna JWT
 app.post('/api/login', async (req, res) => {
   const { email, senha } = req.body;
 
@@ -57,7 +61,7 @@ app.post('/api/login', async (req, res) => {
       { 
         id: user.id, 
         email: user.email,
-        role: user.role // Certifique-se que a tabela clientes tem esta coluna
+        role: user.role
       },
       JWT_SECRET,
       { expiresIn: '1h' }
@@ -70,11 +74,12 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// Rotas existentes
+// Rotas principais da API para quartos, clientes e reservas
 app.use('/api/quartos', quartosRoutes);
 app.use('/api/clientes', clientesRoutes);
 app.use('/api/reservas', reservasRoutes);
 
+// Função para inicializar o banco de dados e criar tabelas se não existirem
 async function startdb() {
   try {
     await sql`
@@ -106,7 +111,8 @@ async function startdb() {
         cliente_id INTEGER REFERENCES clientes(id),
         hospedes INTEGER NOT NULL,
         inicio DATE NOT NULL,
-        fim DATE NOT NULL
+        fim DATE NOT NULL,
+        preco_total DECIMAL(10,2)
       );
     `;
 
@@ -116,6 +122,7 @@ async function startdb() {
   }
 }
 
+// Inicializa o banco e inicia o servidor na porta definida
 startdb().then(() => {
   app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);

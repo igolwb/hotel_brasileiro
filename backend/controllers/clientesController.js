@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { sql } from "../config/db.js";
 
+// Cria um novo cliente no banco de dados, realizando hash da senha e validando campos obrigatórios
 export const criarCliente = async (req, res) => {
   const { nome, email, telefone, senha } = req.body;
 
@@ -37,6 +38,7 @@ export const criarCliente = async (req, res) => {
   }
 };
 
+// Busca todos os clientes cadastrados, ordenados por id decrescente
 export const buscarClientes = async(req, res) => {
     try {
         const clientes = await sql `
@@ -53,6 +55,7 @@ export const buscarClientes = async(req, res) => {
     }
 };
 
+// Busca um cliente específico pelo id fornecido na URL
 export const buscarClienteId = async(req, res) => {
     const { id } = req.params;
 
@@ -68,6 +71,7 @@ export const buscarClienteId = async(req, res) => {
     }
 };
 
+// Atualiza os dados de um cliente pelo id, incluindo hash da nova senha se enviada
 export const atualizarCliente = async(req, res) => {
     const { id } = req.params;
     const { nome , email, telefone, senha } = req.body;
@@ -98,6 +102,7 @@ export const atualizarCliente = async(req, res) => {
     }
 };
 
+// Deleta um cliente do banco de dados pelo id fornecido
 export const deletarCliente = async(req, res) => {
     const { id } = req.params;
 
@@ -126,7 +131,7 @@ export const deletarCliente = async(req, res) => {
 
 };
 
-// Buscar dados do usuário autenticado (sem senha)
+// Busca os dados do cliente autenticado (usando o id do token), sem retornar a senha
 export const buscarClienteMe = async (req, res) => {
   try {
     const userId = req.user.id;

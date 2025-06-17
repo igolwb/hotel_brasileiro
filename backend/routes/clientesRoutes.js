@@ -11,6 +11,7 @@ import {
 
 const router = express.Router();
 
+// Todas as rotas que precisam de usuário autenticado usam middleware
 router.get('/', authenticateToken, buscarClientes);
 router.get('/me', authenticateToken, buscarClienteMe);
 router.get('/:id', authenticateToken, buscarClienteId);
