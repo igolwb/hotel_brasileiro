@@ -1,144 +1,137 @@
-Hotel Brasileiro: Sistema de Gestão Hoteleira Temática
-Bem-vindo ao repositório do Hotel Brasileiro, um sistema de gestão hoteleira temático que valoriza a cultura nacional e a sustentabilidade, oferecendo uma experiência digital inovadora para hóspedes e gestores.
+# Hotel Brasileiro: Sistema de Gestão Hoteleira Temática
 
-Índice
-Sobre o Projeto
+Bem-vindo ao repositório do **Hotel Brasileiro**, um sistema de gestão hoteleira temático que valoriza a cultura nacional e a sustentabilidade, oferecendo uma experiência digital inovadora para hóspedes e gestores[1].
 
-Funcionalidades
+---
 
-Tecnologias Utilizadas
+## Índice
 
-Arquitetura do Sistema
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Funcionalidades](#funcionalidades)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Arquitetura do Sistema](#arquitetura-do-sistema)
+- [Instalação](#instalação)
+- [Como Usar](#como-usar)
+- [Estrutura de Pastas](#estrutura-de-pastas)
+- [Contribuição](#contribuição)
+- [Licença](#licença)
+- [Autores](#autores)
 
-Instalação
+---
 
-Como Usar
+## Sobre o Projeto
 
-Estrutura de Pastas
+O **Hotel Brasileiro** é um sistema de gestão para hotéis temáticos, com foco em sustentabilidade, eficiência operacional e valorização da cultura brasileira. O sistema permite reservas, controle de quartos, experiências turísticas, painel administrativo e relatórios de desempenho, promovendo uma experiência digital acessível e alinhada à cultura nacional[1].
 
-Contribuição
+---
 
-Licença
+## Funcionalidades
 
-Autores
+- Cadastro, edição e exclusão de hóspedes
+- Gerenciamento de reservas, check-in e check-out
+- Catálogo de experiências turísticas e culturais
+- Geração de relatórios gerenciais e dashboards
+- Painel administrativo para gestores
+- Comunicação via chat online e notificações
+- Integração com sistema de pagamentos online
+- Interface responsiva e acessível
+- Segurança de dados (criptografia, autenticação, autorização)
+- Backup automático diário do banco de dados[1]
 
-Sobre o Projeto
-O Hotel Brasileiro é um sistema de gestão para hotéis temáticos, com foco em sustentabilidade, eficiência operacional e valorização da cultura brasileira. O sistema permite reservas, controle de quartos, experiências turísticas, painel administrativo e relatórios de desempenho, promovendo uma experiência digital acessível e alinhada à cultura nacional.
+---
 
-Funcionalidades
-Cadastro, edição e exclusão de hóspedes
+## Tecnologias Utilizadas
 
-Gerenciamento de reservas, check-in e check-out
+### Frontend
 
-Catálogo de experiências turísticas e culturais
+- **React**: Interfaces dinâmicas e responsivas
+- **JavaScript**
+- **Axios**: Requisições HTTP
+- **React-auth-kit**: Autenticação
+- **React-router-dom**: Gerenciamento de rotas
+- **Zustand**: Gerenciamento de estado global[1]
 
-Geração de relatórios gerenciais e dashboards
+### Backend
 
-Painel administrativo para gestores
+- **Node.js**: Execução JavaScript no servidor
+- **Express**: APIs RESTful
+- **Bcrypt**: Hashing de senhas
+- **JWT**: Autenticação baseada em tokens
+- **Swagger**: Documentação de APIs[1]
 
-Comunicação via chat online e notificações
+### Banco de Dados
 
-Integração com sistema de pagamentos online
+- **PostgreSQL**: Armazenamento relacional de dados[1]
 
-Interface responsiva e acessível
+### DevOps
 
-Segurança de dados (criptografia, autenticação, autorização)
+- **Docker**: Conteinerização para implantação e portabilidade[1]
 
-Backup automático diário do banco de dados
+### Design
 
-Tecnologias Utilizadas
-Frontend
-React: Interfaces dinâmicas e responsivas
+- **Figma**: Prototipação e wireframes das interfaces[1]
 
-JavaScript
+---
 
-Axios: Requisições HTTP
+## Arquitetura do Sistema
 
-React-auth-kit: Autenticação
+- **Frontend**: React.js consumindo APIs REST
+- **Backend**: Node.js com Express.js
+- **Banco de Dados**: PostgreSQL
+- **DevOps**: Docker para ambientes isolados e portáveis[1]
 
-React-router-dom: Gerenciamento de rotas
+---
 
-Zustand: Gerenciamento de estado global
+## Instalação
 
-Backend
-Node.js: Execução JavaScript no servidor
+### Pré-requisitos
 
-Express: APIs RESTful
+- Node.js
+- Docker
+- PostgreSQL
 
-Bcrypt: Hashing de senhas
+### Passos
 
-JWT: Autenticação baseada em tokens
+1. Clone este repositório.
+2. Instale as dependências do frontend e backend:
+   ```bash
+   cd frontend-web
+   npm install
+   cd ../backend
+   npm install
+   ```
+3. Configure as variáveis de ambiente conforme o arquivo `.env.example`.
+4. Inicie o banco de dados PostgreSQL (pode ser via Docker).
+5. Execute o backend:
+   ```bash
+   cd backend
+   npm start
+   ```
+6. Execute o frontend:
+   ```bash
+   cd frontend-web
+   npm start
+   ```
+7. Acesse o sistema via navegador em `http://localhost:3000`[1].
 
-Swagger: Documentação de APIs
+---
 
-Banco de Dados
-PostgreSQL: Armazenamento relacional de dados
+## Como Usar
 
-DevOps
-Docker: Conteinerização para implantação e portabilidade
+- **Login**: Acesse com seu e-mail e senha cadastrados.
+- **Cadastro de Hóspedes**: Menu "Hóspedes" > "Novo Cadastro".
+- **Reservas**: Menu "Reservas" > "Nova Reserva".
+- **Check-in/Check-out**: Menu "Reservas" > selecione a reserva.
+- **Experiências**: Menu "Experiências" > agende atividades.
+- **Painel Administrativo**: Menu "Dashboard" para relatórios e gráficos[1].
 
-Design
-Figma: Prototipação e wireframes das interfaces
+---
 
-Arquitetura do Sistema
-Frontend: React.js consumindo APIs REST
+## Estrutura de Pastas
 
-Backend: Node.js com Express.js
+### Frontend
 
-Banco de Dados: PostgreSQL
-
-DevOps: Docker para ambientes isolados e portáveis
-
-Instalação
-Pré-requisitos
-Node.js
-
-Docker
-
-PostgreSQL
-
-Passos
-Clone este repositório.
-
-Instale as dependências do frontend e backend:
-
-bash
-cd frontend-web
-npm install
-cd ../backend
-npm install
-Configure as variáveis de ambiente conforme o arquivo .env.example.
-
-Inicie o banco de dados PostgreSQL (pode ser via Docker).
-
-Execute o backend:
-
-bash
-cd backend
-npm start
-Execute o frontend:
-
-bash
-cd frontend-web
-npm start
-Acesse o sistema via navegador em http://localhost:3000.
-
-Como Usar
-Login: Acesse com seu e-mail e senha cadastrados.
-
-Cadastro de Hóspedes: Menu "Hóspedes" > "Novo Cadastro".
-
-Reservas: Menu "Reservas" > "Nova Reserva".
-
-Check-in/Check-out: Menu "Reservas" > selecione a reserva.
-
-Experiências: Menu "Experiências" > agende atividades.
-
-Painel Administrativo: Menu "Dashboard" para relatórios e gráficos.
-
-Estrutura de Pastas
-Frontend
-text
+```
 frontend-web/
 ├── src/
 │   ├── assets/
@@ -148,8 +141,11 @@ frontend-web/
 │   ├── services/
 │   ├── App.js
 │   └── index.js
-Backend
-text
+```
+
+### Backend
+
+```
 backend/
 ├── config/
 ├── controllers/
@@ -159,31 +155,38 @@ backend/
 ├── .gitignore
 ├── package.json
 └── README.md
-Contribuição
-Fork este repositório.
+```
 
-Crie uma branch: git checkout -b minha-feature
 
-Commit suas alterações: git commit -m 'Minha nova feature'
+---
 
-Push para a branch: git push origin minha-feature
+## Contribuição
 
-Abra um Pull Request.
+1. Fork este repositório.
+2. Crie uma branch: `git checkout -b minha-feature`
+3. Commit suas alterações: `git commit -m 'Minha nova feature'`
+4. Push para a branch: `git push origin minha-feature`
+5. Abra um Pull Request[1].
 
-Licença
-Este projeto está licenciado sob os termos da licença MIT.
+---
 
-Autores
-Igor Willians Alves Bueno
+## Licença
 
-Cauã Kelvin Pereira de Sena
+Este projeto está licenciado sob os termos da licença MIT[1].
 
-Yasmin Pereira de Menezes
+---
 
-Pedro Nicolas Pires Guimarães
+## Autores
 
-João Victor Julião Dos Santos Cardoso
+- Igor Willians Alves Bueno
+- Cauã Kelvin Pereira de Sena
+- Yasmin Pereira de Menezes
+- Pedro Nicolas Pires Guimarães
+- João Victor Julião Dos Santos Cardoso
+- Estella Beatriz Gutemberg Vilarouca de Sousa[1]
 
-Estella Beatriz Gutemberg Vilarouca de Sousa
+---
 
-Projeto desenvolvido como requisito para o curso Técnico em Desenvolvimento de Sistemas da Escola e Faculdade SENAI Suíço-Brasileira “Paulo Ernesto Tolle”.
+Projeto desenvolvido como requisito para o curso Técnico em Desenvolvimento de Sistemas da Escola e Faculdade SENAI Suíço-Brasileira “Paulo Ernesto Tolle”[1].
+
+[1] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/76436166/e66cb116-d0f4-4549-926f-e9cdb37e1df0/Hotel-Brasieliro.docx
