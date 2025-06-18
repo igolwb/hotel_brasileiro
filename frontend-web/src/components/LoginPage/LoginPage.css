@@ -25,7 +25,8 @@ body {
 .logo-title-row {
   display: flex;
   align-items: center;
-  gap: 16px; /* ajuste o espaçamento conforme necessário */
+  gap: 16px;
+  /* ajuste o espaçamento conforme necessário */
 }
 
 .logo-img-login {
@@ -118,49 +119,50 @@ body {
 }
 
 @media (min-width: 769px) {
-.container {
-  flex-direction: row;
-  height: 100vh;
+  .container {
+    flex-direction: row;
+    height: 100vh;
+  }
+
+  .left-panel {
+    flex: 1;
+    height: auto;
+    padding: 0px;
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .logo-title-row {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .logo-img-login {
+    max-width: 120px;
+    width: 100%;
+    height: auto;
+  }
+
+  .left-panel h1,
+  .left-panel h2,
+  .left-panel p {
+    display: block;
+
+  }
+
+  .right-panel {
+    flex: 1;
+    padding: 20px;
+  }
+
+  .login-form {
+    max-width: 400px;
+    gap: 16px;
+  }
+
+  .login-form h2 {
+    font-size: 2rem;
+  }
 }
 
-.left-panel {
-  flex: 1;
-  height: auto;
-  padding: 0px;
-  clip-path: polygon(0 0, 100% 0, 0 100%);
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.logo-title-row {
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-
-.logo-img-login {
-  max-width: 120px;
-  width: 100%;
-  height: auto;
-}
-
-.left-panel h1,
-.left-panel h2,
-.left-panel p {
-  display: block;
-  
-}
-
-.right-panel {
-  flex: 1;
-  padding: 20px;
-}
-
-.login-form {
-  max-width: 400px;
-  gap: 16px;
-}
-
-.login-form h2 {
-  font-size: 2rem;
-}
-}
