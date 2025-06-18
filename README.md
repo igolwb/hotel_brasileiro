@@ -32,7 +32,6 @@ O **Hotel Brasileiro** é um sistema de gestão para hotéis temáticos, com foc
 - Catálogo de experiências turísticas e culturais
 - Geração de relatórios gerenciais e dashboards
 - Painel administrativo para gestores
-- Comunicação via chat online e notificações
 - Integração com sistema de pagamentos online
 - Interface responsiva e acessível
 - Segurança de dados (criptografia, autenticação, autorização)
@@ -63,10 +62,6 @@ O **Hotel Brasileiro** é um sistema de gestão para hotéis temáticos, com foc
 
 - **PostgreSQL**: Armazenamento relacional de dados[1]
 
-### DevOps
-
-- **Docker**: Conteinerização para implantação e portabilidade[1]
-
 ### Design
 
 - **Figma**: Prototipação e wireframes das interfaces[1]
@@ -78,7 +73,6 @@ O **Hotel Brasileiro** é um sistema de gestão para hotéis temáticos, com foc
 - **Frontend**: React.js consumindo APIs REST
 - **Backend**: Node.js com Express.js
 - **Banco de Dados**: PostgreSQL
-- **DevOps**: Docker para ambientes isolados e portáveis[1]
 
 ---
 
@@ -87,7 +81,6 @@ O **Hotel Brasileiro** é um sistema de gestão para hotéis temáticos, com foc
 ### Pré-requisitos
 
 - Node.js
-- Docker
 - PostgreSQL
 
 ### Passos
