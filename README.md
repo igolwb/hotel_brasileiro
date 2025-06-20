@@ -1,6 +1,6 @@
-# Hotel Brasileiro: Sistema de Gestão Hoteleira Temática
+# Hotel Brasileiro
 
-Bem-vindo ao repositório do **Hotel Brasileiro**, um sistema de gestão hoteleira temático que valoriza a cultura nacional e a sustentabilidade, oferecendo uma experiência digital inovadora para hóspedes e gestores[1].
+Bem-vindo ao repositório do **Hotel Brasileiro**, um hotel que valoriza a cultura nacional e a sustentabilidade, oferecendo uma experiência digital inovadora para hóspedes e gestores[1].
 
 ---
 
@@ -76,36 +76,34 @@ O **Hotel Brasileiro** é um sistema de gestão para hotéis temáticos, com foc
 
 ---
 
-## Instalação
+## Instalação (usar o projeto localmente)
 
 ### Pré-requisitos
 
 - Node.js
-- PostgreSQL
 
 ### Passos
 
 1. Clone este repositório.
 2. Instale as dependências do frontend e backend:
    ```bash
+   npm install
    cd frontend-web
    npm install
-   cd ../backend
-   npm install
    ```
-3. Configure as variáveis de ambiente conforme o arquivo `.env.example`.
-4. Inicie o banco de dados PostgreSQL (pode ser via Docker).
-5. Execute o backend:
+3. Configure as variáveis de ambiente conforme o arquivo `.env`.
+
+4. Execute o backend:
    ```bash
    cd backend
    npm start
    ```
-6. Execute o frontend:
+5. Execute o frontend:
    ```bash
    cd frontend-web
    npm start
    ```
-7. Acesse o sistema via navegador em `http://localhost:3000`[1].
+6. Acesse o sistema via navegador em `http://localhost:3001`[1].
 
 ---
 
@@ -144,7 +142,6 @@ backend/
 ├── controllers/
 ├── routes/
 ├── docs/
-├── frontend-web/
 ├── .gitignore
 ├── package.json
 └── README.md
