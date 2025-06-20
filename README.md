@@ -179,4 +179,3 @@ Este projeto está licenciado sob os termos da licença MIT[1].
 
 Projeto desenvolvido como requisito para o curso Técnico em Desenvolvimento de Sistemas da Escola e Faculdade SENAI Suíço-Brasileira “Paulo Ernesto Tolle”[1].
 
-[1] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/76436166/e66cb116-d0f4-4549-926f-e9cdb37e1df0/Hotel-Brasieliro.docx
