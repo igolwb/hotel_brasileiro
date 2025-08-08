@@ -1,3 +1,6 @@
+https://hotel-brasileiro-front.vercel.app/
+https://hotel-brasileiro-back.onrender.com
+
 # Hotel Brasileiro
 
 Bem-vindo ao repositório do **Hotel Brasileiro**, um hotel que valoriza a cultura nacional e a sustentabilidade, oferecendo uma experiência digital inovadora para hóspedes e gestores[1].
@@ -178,4 +181,5 @@ Este projeto está licenciado sob os termos da licença MIT[1].
 ---
 
 Projeto desenvolvido como requisito para o curso Técnico em Desenvolvimento de Sistemas da Escola e Faculdade SENAI Suíço-Brasileira “Paulo Ernesto Tolle”[1].
+
 
